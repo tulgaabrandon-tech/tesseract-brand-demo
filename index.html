@@ -1,0 +1,998 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tesseract T4 Prototype</title>
+  <meta name="description" content="Interactive prototype of the Tesseract T4 desktop app, Android companion and brand system.">
+  <link rel="icon" href="assets/brand/Icon_on_Dark.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/manrope-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/manrope-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/motion.css">
+  <link rel="stylesheet" href="css/phone.css">
+  <link rel="stylesheet" href="css/brandbook.css">
+</head>
+<body>
+
+<!-- SVG icon sprite (generic UI glyphs) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M10.3 3h3.4l.5 2.4 1.7.9 2.3-.8 1.7 2.9-1.8 1.6v2l1.8 1.6-1.7 2.9-2.3-.8-1.7.9-.5 2.4h-3.4l-.5-2.4-1.7-.9-2.3.8-1.7-2.9L6 13v-2L4.2 9.4l1.7-2.9 2.3.8 1.7-.9z"/><circle cx="12" cy="12" r="2.8" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-min" viewBox="0 0 24 24"><path d="M6 12h12" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-max" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-restore" viewBox="0 0 24 24"><rect x="6" y="8.5" width="9.5" height="9.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 8.5V6h9.5v9.5h-2.5" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5m6-6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H10l-4.5 3.5V17A2.5 2.5 0 0 1 4 14.5z" fill="currentColor"/><circle cx="8.5" cy="10.5" r="1.2" fill="#111513"/><circle cx="12" cy="10.5" r="1.2" fill="#111513"/><circle cx="15.5" cy="10.5" r="1.2" fill="#111513"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4.5 5.5A1.5 1.5 0 0 1 6 4h5.2c.5 0 .8.4.8.8V20c0-.6-.5-1-1-1H6a1.5 1.5 0 0 1-1.5-1.5zM19.5 5.5A1.5 1.5 0 0 0 18 4h-5.2c-.5 0-.8.4-.8.8V20c0-.6.5-1 1-1h5a1.5 1.5 0 0 0 1.5-1.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5L12 4l8 6.5V19a1 1 0 0 1-1 1h-4.5v-5.5h-5V20H5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M5 7h9m4 0h1M5 17h3m4 0h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="10" cy="17" r="2" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-rig" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 19.5h6M12 15.5v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c1.2-3.6 4-5.3 7.5-5.3s6.3 1.7 7.5 5.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4.2L21 19.5H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10v4.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="17" r="1.05" fill="currentColor"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="7.9" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24"><path d="M5 18v-2M9.5 18v-5M14 18V9.5M18.5 18V6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11m-5-5 5 5 5-5M5 19.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+</svg>
+
+<!-- ================= Presentation bar (outside the app) ================= -->
+<header class="stage-bar">
+  <div class="stage-bar__brand">
+    <img src="assets/brand/Logo_on_Dark.svg" alt="Tesseract" class="stage-bar__logo" width="148" height="30">
+    <span class="stage-bar__sep" aria-hidden="true"></span>
+    <span class="stage-bar__label">T4 for Windows <em>Interactive prototype</em></span>
+  </div>
+  <nav class="stage-bar__actions" aria-label="Prototype">
+    <button class="btn btn--secondary" id="openPhone" type="button"><svg class="ic"><use href="#i-phone"/></svg>See app</button>
+    <button class="btn btn--primary" id="openBrandbook" type="button"><svg class="ic"><use href="#i-book"/></svg>Brandbook</button>
+  </nav>
+</header>
+
+<!-- ================= Desktop stage ================= -->
+<main class="stage" id="stage">
+  <section class="window" id="window" aria-label="T4 application window">
+    <!-- Windows title bar -->
+    <div class="titlebar">
+      <div class="titlebar__app"><img src="assets/brand/Icon_on_Dark.svg" alt="" width="14" height="16"><span>T4</span></div>
+      <div class="titlebar__controls">
+        <button type="button" class="tb-btn" data-win="min" aria-label="Minimize"><svg><use href="#i-min"/></svg></button>
+        <button type="button" class="tb-btn" data-win="max" aria-label="Maximize"><svg><use href="#i-max"/></svg></button>
+        <button type="button" class="tb-btn tb-btn--close" data-win="close" aria-label="Close"><svg><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+
+    <!-- App header -->
+    <header class="app-header">
+      <button type="button" class="app-header__logo" data-nav="home" aria-label="Tesseract home">
+        <img src="assets/brand/Logo_on_Dark.svg" alt="Tesseract" height="22" width="109">
+      </button>
+      <nav class="app-nav" aria-label="Main">
+        <button type="button" class="app-nav__item is-active" data-nav="home" aria-current="page"><svg class="ic"><use href="#i-home"/></svg>Home</button>
+        <button type="button" class="app-nav__item" data-nav="settings"><svg class="ic"><use href="#i-sliders"/></svg>Settings</button>
+      </nav>
+      <div class="user">
+        <button type="button" class="user__btn" id="userBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="userMenu">
+          <span class="avatar" aria-hidden="true">TB</span>
+          <span class="user__name">tulgaa.brandon</span>
+          <svg class="ic ic--sm"><use href="#i-chev"/></svg>
+        </button>
+        <div class="menu" id="userMenu" role="menu" hidden>
+          <div class="menu__head"><span class="avatar avatar--lg" aria-hidden="true">TB</span><div><strong>tulgaa.brandon</strong><span>Rig · Tesseract-Dev</span></div></div>
+          <button type="button" role="menuitem" class="menu__item" data-nav="settings"><svg class="ic"><use href="#i-sliders"/></svg>Settings</button>
+          <button type="button" role="menuitem" class="menu__item" data-action="open-stream"><svg class="ic"><use href="#i-gear"/></svg>Stream settings</button>
+          <hr>
+          <button type="button" role="menuitem" class="menu__item" data-action="sign-out">Sign out</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <!-- ---------- HOME VIEW ---------- -->
+      <div class="view" id="view-home" data-view="home">
+        <div class="home">
+          <header class="home__intro">
+            <h1 class="display">Welcome, <span>tulgaa.brandon</span></h1>
+            <p>Connect the platforms you own games on. They run on your T4 gaming rig and stream to this device.</p>
+          </header>
+
+          <!-- Steam hero -->
+          <section class="rig" aria-labelledby="steamTitle">
+            <div class="rig__artClip" aria-hidden="true"><img class="rig__art" src="assets/brand/Icon_Outline.svg" alt=""></div>
+            <div class="rig__main">
+              <div class="tile tile--lg" aria-hidden="true" data-logo="steam">S</div>
+              <div class="rig__text">
+                <div class="rig__titleRow">
+                  <h2 id="steamTitle" class="rig__title">Steam</h2>
+                  <span class="status status--ok"><svg class="ic ic--xs"><use href="#i-check"/></svg>Set up on your rig</span>
+                </div>
+                <p class="rig__desc">Steam runs on your T4 gaming rig and keeps you signed in. Press Play to open your library.</p>
+                <p class="rig__meta"><span class="dot dot--ok" aria-hidden="true"></span><span>Gaming rig <strong>Tesseract-Dev</strong> is ready</span><span class="rig__cfg" id="rigCfg">1920 × 1080 · 60 FPS · 20.5 Mbps</span></p>
+                <p class="rig__last" id="rigLast" hidden></p>
+              </div>
+            </div>
+            <div class="rig__actions">
+              <button type="button" class="btn btn--play" id="playBtn" aria-haspopup="dialog" aria-controls="streamPop">
+                <svg class="ic"><use href="#i-play"/></svg><span>Play Steam</span>
+              </button>
+              <button type="button" class="btn btn--ghost" data-action="open-stream"><svg class="ic"><use href="#i-gear"/></svg>Stream settings</button>
+            </div>
+
+          </section>
+
+          <!-- More platforms -->
+          <section aria-labelledby="moreTitle" class="platforms">
+            <div class="section-head">
+              <h2 id="moreTitle">More platforms</h2>
+              <span class="section-head__count" id="linkedCount">0 of 6 linked</span>
+            </div>
+            <ul class="plat-grid" id="platGrid"></ul>
+            <p class="footnote"><svg class="ic ic--sm"><use href="#i-info"/></svg>Games from Epic, Xbox, Ubisoft, EA, GOG and Battle.net launch through Steam on the rig for now. Direct launch for each store is on the way.</p>
+          </section>
+        </div>
+      </div>
+
+      <!-- ---------- SETTINGS VIEW ---------- -->
+      <div class="view" id="view-settings" data-view="settings" hidden>
+        <div class="settings">
+          <aside class="settings__nav">
+            <button type="button" class="back-btn" data-nav="home"><svg class="ic"><use href="#i-back"/></svg>Back to Home</button>
+            <h1 class="settings__title">Settings</h1>
+            <div role="tablist" aria-orientation="vertical" aria-label="Settings sections" class="vtabs" id="settingsTabs">
+              <button role="tab" type="button" aria-selected="true" aria-controls="sp-video" id="st-video">Video</button>
+              <button role="tab" type="button" aria-selected="false" aria-controls="sp-audio" id="st-audio" tabindex="-1">Audio</button>
+              <button role="tab" type="button" aria-selected="false" aria-controls="sp-host" id="st-host" tabindex="-1">Host</button>
+              <button role="tab" type="button" aria-selected="false" aria-controls="sp-input" id="st-input" tabindex="-1">Mouse &amp; keyboard</button>
+              <button role="tab" type="button" aria-selected="false" aria-controls="sp-gamepad" id="st-gamepad" tabindex="-1">Gamepad</button>
+              <button role="tab" type="button" aria-selected="false" aria-controls="sp-ui" id="st-ui" tabindex="-1">Interface</button>
+              <button role="tab" type="button" aria-selected="false" aria-controls="sp-adv" id="st-adv" tabindex="-1">Advanced</button>
+            </div>
+            <p class="settings__ver">Version 1.0.5 · Changes save automatically</p>
+          </aside>
+
+          <div class="settings__panes">
+            <section role="tabpanel" id="sp-video" aria-labelledby="st-video" class="pane">
+              <h2>Video</h2>
+              <p class="pane__lede">Values that are too high for your PC or network connection may cause lag, stuttering or errors.</p>
+              <div class="set-group">
+                <div class="set-row"><div><label for="s-res">Resolution</label></div><div class="select"><select id="s-res" data-bind="resolution"></select></div></div>
+                <div class="set-row"><div><label for="s-fps">Frame rate</label></div><div class="select"><select id="s-fps" data-bind="fps"></select></div></div>
+                <div class="set-row set-row--stack"><div><label for="s-bitrate">Video bitrate</label><p>Lower the bitrate on slower connections. Raise it to increase image quality.</p></div>
+                  <div class="range range--wide"><input type="range" id="s-bitrate" data-bind="bitrate" min="5" max="80" step="0.5"><output for="s-bitrate" data-out="bitrate">20.5 Mbps</output></div></div>
+                <div class="set-row"><div><label for="s-mode">Display mode</label></div><div class="select"><select id="s-mode" data-bind="displayMode"></select></div></div>
+                <div class="set-row"><div><span class="lbl">V-Sync</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="vsync" aria-label="V-Sync"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Frame pacing</span><p>Smoother motion at the cost of a little latency.</p></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="framePacing" aria-label="Frame pacing"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Show stream settings before every launch</span><p>When off, Play starts streaming straight away.</p></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="askEveryLaunch" aria-label="Show stream settings before every launch"><span class="switch__track"></span></label></div>
+              </div>
+            </section>
+
+            <section role="tabpanel" id="sp-audio" aria-labelledby="st-audio" class="pane" hidden>
+              <h2>Audio</h2>
+              <div class="set-group">
+                <div class="set-row"><div><label for="s-audio">Audio configuration</label></div><div class="select"><select id="s-audio" data-bind="audio"></select></div></div>
+                <div class="set-row"><div><span class="lbl">Mute rig speakers while streaming</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="muteHost" aria-label="Mute rig speakers while streaming"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Mute audio stream when T4 is not the active window</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="muteUnfocused" aria-label="Mute when not focused"><span class="switch__track"></span></label></div>
+              </div>
+            </section>
+
+            <section role="tabpanel" id="sp-host" aria-labelledby="st-host" class="pane" hidden>
+              <h2>Host</h2>
+              <div class="set-group">
+                <div class="set-row"><div><span class="lbl">Optimize game settings for streaming</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="optimizeGames" aria-label="Optimize game settings for streaming"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Quit app on the rig after ending stream</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="quitAfter" aria-label="Quit app on the rig after ending stream"><span class="switch__track"></span></label></div>
+              </div>
+            </section>
+
+            <section role="tabpanel" id="sp-input" aria-labelledby="st-input" class="pane" hidden>
+              <h2>Mouse &amp; keyboard</h2>
+              <div class="set-group">
+                <div class="set-row"><div><span class="lbl">Optimize mouse for remote desktop instead of games</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="mouseDesktop" aria-label="Optimize mouse for remote desktop"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Capture system keyboard shortcuts</span><p>Sends shortcuts like Alt+Tab to the rig.</p></div>
+                  <div class="inline-ctl"><div class="select select--sm"><select id="s-capture" data-bind="captureWhen" aria-label="When to capture shortcuts"></select></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="captureKeys" aria-label="Capture system keyboard shortcuts"><span class="switch__track"></span></label></div></div>
+                <div class="set-row"><div><span class="lbl">Use touchscreen as a virtual trackpad</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="trackpad" aria-label="Use touchscreen as virtual trackpad"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Swap left and right mouse buttons</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="swapMouse" aria-label="Swap mouse buttons"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Reverse mouse scrolling direction</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="reverseScroll" aria-label="Reverse scrolling"><span class="switch__track"></span></label></div>
+              </div>
+            </section>
+
+            <section role="tabpanel" id="sp-gamepad" aria-labelledby="st-gamepad" class="pane" hidden>
+              <h2>Gamepad</h2>
+              <div class="set-group">
+                <div class="set-row"><div><span class="lbl">Swap A/B and X/Y gamepad buttons</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="swapAB" aria-label="Swap A/B and X/Y"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Force gamepad #1 always connected</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="forcePad" aria-label="Force gamepad 1 connected"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Mouse control with gamepads by holding Start</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="padMouse" aria-label="Mouse control with gamepads"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Process gamepad input when T4 is in the background</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="padBackground" aria-label="Process gamepad input in background"><span class="switch__track"></span></label></div>
+              </div>
+            </section>
+
+            <section role="tabpanel" id="sp-ui" aria-labelledby="st-ui" class="pane" hidden>
+              <h2>Interface</h2>
+              <div class="set-group">
+                <div class="set-row"><div><label for="s-lang">Language</label></div><div class="select"><select id="s-lang" data-bind="language"></select></div></div>
+                <div class="set-row"><div><label for="s-gui">Window mode</label></div><div class="select"><select id="s-gui" data-bind="guiMode"></select></div></div>
+                <div class="set-row"><div><span class="lbl">Show connection quality warnings</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="qualityWarnings" aria-label="Show connection quality warnings"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Discord Rich Presence</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="discord" aria-label="Discord Rich Presence"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Keep the display awake while streaming</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="keepAwake" aria-label="Keep display awake"><span class="switch__track"></span></label></div>
+              </div>
+            </section>
+
+            <section role="tabpanel" id="sp-adv" aria-labelledby="st-adv" class="pane" hidden>
+              <h2>Advanced</h2>
+              <div class="set-group">
+                <div class="set-row"><div><label for="s-dec">Video decoder</label></div><div class="select"><select id="s-dec" data-bind="decoder"></select></div></div>
+                <div class="set-row"><div><label for="s-codec">Video codec</label></div><div class="select"><select id="s-codec" data-bind="codec"></select></div></div>
+                <div class="set-row"><div><span class="lbl">HDR <em class="tag">Experimental</em></span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="hdr" aria-label="HDR"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">YUV 4:4:4 <em class="tag">Experimental</em></span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="yuv444" aria-label="YUV 4:4:4"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Unlock bitrate limit <em class="tag">Experimental</em></span><p>Raises the bitrate ceiling from 80 to 150 Mbps.</p></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="unlockBitrate" aria-label="Unlock bitrate limit"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Automatically find PCs on the local network</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="findLocal" aria-label="Find PCs on local network"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Automatically detect blocked connections</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="detectBlocked" aria-label="Detect blocked connections"><span class="switch__track"></span></label></div>
+                <div class="set-row"><div><span class="lbl">Show performance stats while streaming</span></div><label class="switch switch--solo"><input type="checkbox" role="switch" data-bind="perfStats" aria-label="Show performance stats"><span class="switch__track"></span></label></div>
+              </div>
+              <div class="pane__danger">
+                <div><strong>Reset all settings</strong><p>Restores every option on this page to its default.</p></div>
+                <button type="button" class="btn btn--secondary" data-action="reset-settings">Reset to defaults</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <!-- ---------- SIGNED OUT VIEW ---------- -->
+      <div class="view" id="view-signedout" data-view="signedout" hidden>
+        <div class="signedout">
+          <img src="assets/brand/Icon_on_Dark.svg" alt="" class="signedout__mark" width="72" height="82">
+          <h1 class="display">You're signed out</h1>
+          <p>Sign in to reach your T4 gaming rig and the platforms you've connected.</p>
+          <button type="button" class="btn btn--primary btn--lg" data-action="sign-in">Sign in as tulgaa.brandon</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stream settings dialog (centered in the window) -->
+    <div class="pop-layer" id="popLayer" hidden>
+      <div class="pop-layer__scrim" data-pop-close></div>
+    <div class="pop" id="streamPop" role="dialog" aria-modal="true" aria-labelledby="popTitle">
+      <header class="pop__head">
+        <svg class="ic pop__icon" aria-hidden="true"><use href="#i-gear"/></svg>
+        <div>
+          <h2 id="popTitle">Stream settings</h2>
+          <p>Choose how Steam streams to this device, then start.</p>
+        </div>
+        <button type="button" class="icon-btn" data-pop-close aria-label="Close stream settings"><svg><use href="#i-close"/></svg></button>
+      </header>
+      <div class="pop__body">
+        <div class="field-row"><label for="p-res">Resolution</label>
+          <div class="select"><select id="p-res" data-bind="resolution"></select></div></div>
+        <div class="field-row"><label for="p-fps">Frame rate</label>
+          <div class="select"><select id="p-fps" data-bind="fps"></select></div></div>
+        <div class="field-row"><label for="p-bitrate">Bitrate</label>
+          <div class="range"><input type="range" id="p-bitrate" data-bind="bitrate" min="5" max="80" step="0.5"><output for="p-bitrate" data-out="bitrate">20.5 Mbps</output></div></div>
+        <div class="field-row"><label for="p-codec">Video codec</label>
+          <div class="select"><select id="p-codec" data-bind="codec"></select></div></div>
+        <div class="field-row"><label for="p-mode">Display mode</label>
+          <div class="select"><select id="p-mode" data-bind="displayMode"></select></div></div>
+        <p class="pop__tip">The rig lowers the bitrate automatically if the connection can't keep up. Higher resolution and frame rate need a faster connection.</p>
+        <div class="pop__toggles">
+          <label class="switch"><input type="checkbox" role="switch" data-bind="vsync"><span class="switch__track"></span>V-Sync</label>
+          <label class="switch"><input type="checkbox" role="switch" data-bind="framePacing"><span class="switch__track"></span>Frame pacing</label>
+          <label class="switch"><input type="checkbox" role="switch" data-bind="perfStats"><span class="switch__track"></span>Performance stats overlay</label>
+          <label class="switch"><input type="checkbox" role="switch" data-bind="muteUnfocused"><span class="switch__track"></span>Mute when not focused</label>
+        </div>
+        <label class="check"><input type="checkbox" data-bind="askEveryLaunch"><span class="check__box"><svg><use href="#i-check"/></svg></span>Show these settings before every launch</label>
+      </div>
+      <footer class="pop__foot">
+        <button type="button" class="link-btn" data-action="all-options">All streaming options…</button>
+        <div class="pop__btns">
+          <button type="button" class="btn btn--secondary" data-pop-close>Cancel</button>
+          <button type="button" class="btn btn--primary" id="startStream"><svg class="ic"><use href="#i-play"/></svg>Start streaming</button>
+        </div>
+      </footer>
+    </div>
+    </div>
+
+    <!-- Support chat -->
+    <button type="button" class="fab" id="fab" aria-label="Message support" aria-expanded="false" aria-controls="chat"><svg><use href="#i-chat"/></svg></button>
+    <div class="chat" id="chat" role="dialog" aria-labelledby="chatTitle" hidden>
+      <header><h2 id="chatTitle">Message support</h2><button type="button" class="icon-btn" data-chat-close aria-label="Close support"><svg><use href="#i-close"/></svg></button></header>
+      <div class="chat__log" id="chatLog" aria-live="polite">
+        <p class="bubble">Hi tulgaa.brandon. Tell us what's happening with your rig and we'll reply here.</p>
+      </div>
+      <form class="chat__form" id="chatForm">
+        <label class="sr-only" for="chatInput">Message</label>
+        <input id="chatInput" class="input" placeholder="Describe the issue…" autocomplete="off">
+        <button class="btn btn--primary btn--sm" type="submit">Send</button>
+      </form>
+    </div>
+
+    <!-- Status bar -->
+    <footer class="statusbar" aria-label="Connection">
+      <span class="sb-item"><span class="dot dot--ok" aria-hidden="true"></span><span class="mono">45.117.32.214:48989</span></span>
+      <span class="sb-item">Delay <b class="mono" id="sbDelay">9 ms</b></span>
+      <span class="sb-item">Jitter <b class="mono" id="sbJitter">5 ms</b></span>
+      <span class="sb-item">Loss <b class="mono">0 %</b></span>
+      <span class="sb-item sb-item--muted">FPS — measured during a stream</span>
+      <span class="sb-ver">T4 1.0.5</span>
+    </footer>
+
+    <!-- Toasts -->
+    <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+  </section>
+
+  <!-- Closed / minimized states -->
+  <div class="closed" id="closedState" hidden>
+    <img src="assets/brand/Icon_on_Dark.svg" alt="" width="56" height="64">
+    <p>T4 is closed.</p>
+    <button type="button" class="btn btn--primary" data-win="reopen">Open T4</button>
+  </div>
+  <button type="button" class="taskbar-chip" id="taskChip" data-win="restore" hidden><img src="assets/brand/Icon_on_Dark.svg" alt="" width="14" height="16">T4 — restore window</button>
+</main>
+
+<!-- ================= Boot loader ================= -->
+<div class="boot" id="boot" aria-hidden="true">
+  <div class="boot__inner">
+    <div class="boot__mark" data-mark></div>
+    <img class="boot__type" src="assets/brand/Type_on_Dark.svg" alt="" width="200" height="39">
+  </div>
+</div>
+
+<!-- ================= Teleport (Play → stream) ================= -->
+<div class="tp" id="tp" role="dialog" aria-modal="true" aria-labelledby="tpTitle" hidden>
+  <div class="tp__veil"></div>
+  <div class="tp__center">
+    <div class="tp__mark" id="tpMark" data-mark></div>
+    <div class="tp__text">
+      <h2 class="tp__title" id="tpTitle">Teleporting to Tesseract-Dev</h2>
+      <ol class="tp__steps" id="tpSteps">
+        <li>Waking your rig</li>
+        <li>Starting Steam</li>
+        <li>Connecting the stream</li>
+      </ol>
+      <p class="tp__cfg" id="tpCfg">1920 × 1080 · 60 FPS · 20.5 Mbps</p>
+      <button type="button" class="tp__cancel" id="tpCancel">Cancel</button>
+    </div>
+  </div>
+  <div class="tp__flash" aria-hidden="true"></div>
+</div>
+
+<!-- ================= Stream session ================= -->
+<div class="stream" id="stream" role="dialog" aria-modal="true" aria-labelledby="streamTitle" hidden>
+  <div class="stream__desk" aria-hidden="true">
+    <div class="stream__brand" id="streamBrand"><span class="stream__brandType">STEAM</span></div>
+  </div>
+  <div class="stream__hello" id="streamHello">
+    <p class="stream__eyebrow"><span class="live-dot"></span>Connected</p>
+    <h2 id="streamTitle">Steam is open on Tesseract-Dev</h2>
+    <p>Your rig's screen is streaming to this device. Use your mouse, keyboard or controller as if you were sitting at it.</p>
+  </div>
+  <aside class="stats" id="stats" aria-label="Performance stats">
+    <div class="stats__head"><span class="live-dot"></span>Tesseract-Dev</div>
+    <dl>
+      <div><dt>Video</dt><dd id="stRes">2560 × 1440</dd></div>
+      <div><dt>Frame rate</dt><dd id="stFps">60.0 FPS</dd></div>
+      <div><dt>Bitrate</dt><dd id="stRate">32.0 Mbps</dd></div>
+      <div><dt>Delay</dt><dd id="stDelay">9 ms</dd></div>
+      <div><dt>Jitter</dt><dd id="stJitter">5 ms</dd></div>
+      <div><dt>Loss</dt><dd>0 %</dd></div>
+      <div><dt>Decoder</dt><dd id="stDec">HEVC · hardware</dd></div>
+    </dl>
+  </aside>
+  <div class="stream__bar" id="streamBar">
+    <span class="stream__time"><span class="live-dot"></span>Live <time id="streamTime">0:00</time></span>
+    <span class="stream__keys"><kbd>Ctrl</kbd><kbd>Alt</kbd><kbd>Shift</kbd> + <kbd>Q</kbd> end stream <span class="sep"></span><kbd>S</kbd> stats</span>
+    <span class="stream__btns">
+      <button type="button" class="btn btn--ghost btn--sm" id="statsToggle" aria-pressed="true">Stats</button>
+      <button type="button" class="btn btn--secondary btn--sm" id="endStream">End stream</button>
+    </span>
+  </div>
+  <p class="stream__note">Prototype · simulated stream</p>
+</div>
+
+<!-- ================= Android app modal ================= -->
+<div class="modal" id="phoneModal" role="dialog" aria-modal="true" aria-labelledby="phoneTitle" hidden>
+  <div class="modal__scrim" data-modal-close></div>
+  <div class="modal__phoneWrap">
+    <button type="button" class="icon-btn modal__x" data-modal-close aria-label="Close Android preview"><svg><use href="#i-close"/></svg></button>
+    <aside class="phone-caption">
+      <img src="assets/brand/Short_Logo_on_Dark.svg" alt="T4" height="36" width="68">
+      <h2 id="phoneTitle">T4 for Android</h2>
+      <p class="phone-caption__tag">Teleport your <span>battlestation.</span></p>
+      <p>The same rig, platforms and stream settings as the desktop app, rebuilt for touch: one-thumb Play, quality presets and a live connection check.</p>
+      <ul>
+        <li>Tap through the bottom navigation</li>
+        <li>Press Play to try the launch flow</li>
+        <li>Run a connection test on the Rig tab</li>
+      </ul>
+    </aside>
+
+    <div class="phone" id="phone">
+      <div class="phone__screen">
+        <div class="a-status"><span class="mono" id="aClock">9:41</span><span class="a-punch" aria-hidden="true"></span><span class="a-status__icons" aria-hidden="true"><svg viewBox="0 0 18 12"><path d="M1 11h2V8H1zM5 11h2V6H5zM9 11h2V4H9zM13 11h2V1h-2z" fill="currentColor"/></svg><svg viewBox="0 0 22 12"><rect x=".5" y=".5" width="18" height="11" rx="2.5" fill="none" stroke="currentColor"/><rect x="2" y="2" width="13" height="8" rx="1.2" fill="currentColor"/><rect x="19.5" y="4" width="1.6" height="4" rx=".6" fill="currentColor"/></svg></span></div>
+
+        <div class="a-app" id="aApp">
+          <!-- HOME -->
+          <section class="a-screen" data-ascreen="home">
+            <header class="a-top">
+              <img src="assets/brand/Short_Logo_on_Dark.svg" alt="T4" height="26" width="49">
+              <button type="button" class="a-avatar" data-atab="account" aria-label="Account">TB</button>
+            </header>
+            <div class="a-scroll">
+              <p class="a-hello">Welcome back,<br><strong>tulgaa.brandon</strong></p>
+              <div class="a-hero">
+                <img src="assets/brand/Icon_on_Dark.svg" alt="" class="a-hero__art" aria-hidden="true">
+                <div class="a-hero__row"><div class="tile" data-logo="steam">S</div><div><h3>Steam</h3><p><span class="dot dot--ok"></span>Tesseract-Dev is ready</p></div></div>
+                <button type="button" class="a-play" id="aPlay"><svg class="ic"><use href="#i-play"/></svg>Play Steam</button>
+                <button type="button" class="a-quality" data-atab="stream"><span id="aQuality">1080p · 60 FPS · 20.5 Mbps</span><span class="a-quality__edit">Edit</span></button>
+              </div>
+              <h4 class="a-sub">More platforms</h4>
+              <ul class="a-list" id="aPlatList"></ul>
+              <p class="a-note">These games launch through Steam on the rig for now.</p>
+            </div>
+          </section>
+
+          <!-- STREAM -->
+          <section class="a-screen" data-ascreen="stream" hidden>
+            <header class="a-top a-top--title"><h3>Stream</h3></header>
+            <div class="a-scroll">
+              <h4 class="a-sub">Quality</h4>
+              <div class="a-seg" role="radiogroup" aria-label="Quality preset" id="aPreset">
+                <button type="button" role="radio" aria-checked="false" data-preset="saver">Data saver</button>
+                <button type="button" role="radio" aria-checked="true" data-preset="balanced">Balanced</button>
+                <button type="button" role="radio" aria-checked="false" data-preset="max">Max</button>
+              </div>
+              <div class="a-card">
+                <div class="a-field"><label for="a-res">Resolution</label><div class="select select--a"><select id="a-res" data-bind="resolution"></select></div></div>
+                <div class="a-field"><span class="a-lbl">Frame rate</span>
+                  <div class="a-chips" role="radiogroup" aria-label="Frame rate" id="aFps"></div></div>
+                <div class="a-field"><label for="a-bitrate">Bitrate <output data-out="bitrate">20.5 Mbps</output></label><div class="range range--a"><input type="range" id="a-bitrate" data-bind="bitrate" min="5" max="80" step="0.5"></div></div>
+              </div>
+              <h4 class="a-sub">Touch &amp; playback</h4>
+              <div class="a-card a-card--list">
+                <label class="a-toggle"><span>Use touchscreen as a trackpad</span><span class="switch"><input type="checkbox" role="switch" data-bind="trackpad"><span class="switch__track"></span></span></label>
+                <label class="a-toggle"><span>Performance stats overlay</span><span class="switch"><input type="checkbox" role="switch" data-bind="perfStats"><span class="switch__track"></span></span></label>
+                <label class="a-toggle"><span>Keep screen awake while streaming</span><span class="switch"><input type="checkbox" role="switch" data-bind="keepAwake"><span class="switch__track"></span></span></label>
+                <label class="a-toggle"><span>Swap A/B and X/Y buttons</span><span class="switch"><input type="checkbox" role="switch" data-bind="swapAB"><span class="switch__track"></span></span></label>
+              </div>
+            </div>
+          </section>
+
+          <!-- RIG -->
+          <section class="a-screen" data-ascreen="rig" hidden>
+            <header class="a-top a-top--title"><h3>Rig</h3></header>
+            <div class="a-scroll">
+              <div class="a-rig">
+                <div class="a-rig__head"><svg class="ic"><use href="#i-rig"/></svg><div><strong>Tesseract-Dev</strong><span class="mono">45.117.32.214:48989</span></div><span class="status status--ok">Online</span></div>
+                <dl class="a-stats">
+                  <div><dt>Delay</dt><dd class="mono" id="aDelay">9 ms</dd></div>
+                  <div><dt>Jitter</dt><dd class="mono" id="aJitter">5 ms</dd></div>
+                  <div><dt>Loss</dt><dd class="mono" id="aLoss">0 %</dd></div>
+                </dl>
+                <p class="a-rig__verdict" id="aVerdict">Good for 1080p at 60 FPS.</p>
+                <button type="button" class="a-btn a-btn--tonal" id="aTest">Test connection</button>
+              </div>
+              <h4 class="a-sub">On the rig</h4>
+              <div class="a-card a-card--list">
+                <label class="a-toggle"><span>Mute rig speakers while streaming</span><span class="switch"><input type="checkbox" role="switch" data-bind="muteHost"><span class="switch__track"></span></span></label>
+                <label class="a-toggle"><span>Quit app on the rig after streaming</span><span class="switch"><input type="checkbox" role="switch" data-bind="quitAfter"><span class="switch__track"></span></span></label>
+              </div>
+            </div>
+          </section>
+
+          <!-- ACCOUNT -->
+          <section class="a-screen" data-ascreen="account" hidden>
+            <header class="a-top a-top--title"><h3>Account</h3></header>
+            <div class="a-scroll">
+              <div class="a-profile"><span class="avatar avatar--xl">TB</span><div><strong>tulgaa.brandon</strong><span id="aLinked">Steam + 0 platforms linked</span></div></div>
+              <div class="a-card a-card--list">
+                <label class="a-toggle"><span>Connection quality warnings</span><span class="switch"><input type="checkbox" role="switch" data-bind="qualityWarnings"><span class="switch__track"></span></span></label>
+                <label class="a-toggle"><span>Discord Rich Presence</span><span class="switch"><input type="checkbox" role="switch" data-bind="discord"><span class="switch__track"></span></span></label>
+              </div>
+              <button type="button" class="a-btn a-btn--outline" id="aSignOut">Sign out</button>
+              <p class="a-note a-note--center">T4 for Android 1.0.5</p>
+            </div>
+          </section>
+
+          <!-- SIGNED OUT -->
+          <section class="a-screen a-screen--center" data-ascreen="signedout" hidden>
+            <img src="assets/brand/Icon_on_Dark.svg" alt="" width="64" height="73">
+            <h3>Bring your A game.</h3>
+            <p>We'll bring the rest.</p>
+            <button type="button" class="a-btn a-btn--filled" id="aSignIn">Sign in</button>
+          </section>
+
+          <!-- bottom sheet -->
+          <div class="a-sheet" id="aSheet" hidden>
+            <div class="a-sheet__scrim" data-asheet-close></div>
+            <div class="a-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="aSheetTitle">
+              <span class="a-sheet__grab" aria-hidden="true"></span>
+              <div class="a-sheet__loading" id="aSheetLoading">
+                <div class="a-sheet__mark" id="aMark" data-mark></div>
+                <h3 id="aSheetTitle">Teleporting to Tesseract-Dev</h3>
+                <p id="aSheetDetail">Waking up Tesseract-Dev</p>
+                <div class="a-progress"><span id="aSheetBar"></span></div>
+                <button type="button" class="a-btn a-btn--text" data-asheet-close>Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="a-live" id="aLive" hidden>
+            <img class="a-live__wall" src="assets/brand/Icon_Outline.svg" alt="" aria-hidden="true">
+            <div class="a-live__top"><span class="a-live__chip"><span class="live-dot"></span>Live <time id="aLiveTime">0:00</time></span><span class="a-live__chip mono" id="aLiveStats">1080p · 60 FPS · 9 ms</span></div>
+            <div class="a-live__msg"><h3>Steam is open on Tesseract-Dev</h3><p>Turn your phone sideways for the full picture.</p></div>
+            <button type="button" class="a-btn a-btn--outline a-live__end" id="aEnd">End stream</button>
+          </div>
+
+          <div class="a-snack" id="aSnack" role="status" hidden></div>
+        </div>
+
+        <nav class="a-nav" aria-label="App">
+          <button type="button" data-atab="home" class="is-active" aria-current="page"><span class="a-nav__pill"><svg><use href="#i-home"/></svg></span>Home</button>
+          <button type="button" data-atab="stream"><span class="a-nav__pill"><svg><use href="#i-sliders"/></svg></span>Stream</button>
+          <button type="button" data-atab="rig"><span class="a-nav__pill"><svg><use href="#i-rig"/></svg></span>Rig</button>
+          <button type="button" data-atab="account"><span class="a-nav__pill"><svg><use href="#i-user"/></svg></span>Account</button>
+        </nav>
+        <span class="a-gesture" aria-hidden="true"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= Brandbook modal ================= -->
+<div class="modal modal--book" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookTitle" hidden>
+  <div class="modal__scrim" data-modal-close></div>
+  <div class="book">
+    <aside class="book__nav">
+      <img src="assets/brand/Logo_on_Dark.svg" alt="Tesseract" width="130" height="26">
+      <p class="book__navLabel">Brand &amp; product system</p>
+      <nav aria-label="Brandbook sections">
+        <ol id="bookIndex">
+          <li><a href="#bb-identity"><span>01</span>Brand identity</a></li>
+          <li><a href="#bb-color"><span>02</span>Color system</a></li>
+          <li><a href="#bb-type"><span>03</span>Typography</a></li>
+          <li><a href="#bb-graphic"><span>04</span>Graphic language</a></li>
+          <li><a href="#bb-components"><span>05</span>Desktop components</a></li>
+          <li><a href="#bb-desktop"><span>06</span>Desktop application</a></li>
+          <li><a href="#bb-android"><span>07</span>Android design</a></li>
+          <li><a href="#bb-a11y"><span>08</span>Accessibility</a></li>
+          <li><a href="#bb-downloads"><span>09</span>Downloads</a></li>
+        </ol>
+      </nav>
+      <div class="book__kit"><div class="dl dl--primary dl--up" data-dl="kit"></div></div>
+      <p class="book__ver">v1.0 · Oct 2026</p>
+    </aside>
+    <button type="button" class="icon-btn book__x" data-modal-close aria-label="Close brandbook"><svg><use href="#i-close"/></svg></button>
+    <div class="book__scroll" id="bookScroll" tabindex="0">
+      <!-- BRANDBOOK CONTENT injected from template below for readability -->
+    </div>
+  </div>
+</div>
+
+<template id="bookTpl">
+  <!-- Cover -->
+  <header class="bb-cover">
+    <img class="bb-cover__art" src="assets/brand/Icon_Outline.svg" alt="" aria-hidden="true">
+    <div class="bb-cover__text">
+      <p class="bb-eyebrow">Brandbook · v1.0</p>
+      <h1 id="bookTitle"><img src="assets/brand/Type_on_Dark.svg" alt="Tesseract" class="bb-cover__type"></h1>
+      <p class="bb-cover__tag">Teleport your <span>battlestation.</span></p>
+      <div class="bb-cover__dl"><div class="dl dl--primary" data-dl="kit"></div><span>Logos, motion, colors and fonts in one file</span></div>
+      <p class="bb-cover__lede">The logo book defines who Tesseract is. This document extends it into a working system for the T4 desktop app and its Android companion: color roles, type, graphic language, components and the rules that keep them consistent.</p>
+    </div>
+  </header>
+
+  <!-- 01 IDENTITY -->
+  <section class="bb-sec" id="bb-identity">
+    <header class="bb-sec__head"><span class="bb-num">01</span><h2>Brand identity</h2><p>One symbol, one wordmark, three lockups. The symbol is an open isometric cube carrying a cross (the controller's D-pad), a ring and a square (the face buttons): a battlestation folded into a single object.</p></header>
+
+    <div class="bb-logos">
+      <figure class="bb-logo bb-logo--dark bb-logo--wide"><img src="assets/brand/Logo_on_Dark.svg" alt="Tesseract full logo on dark"><figcaption><strong>Full logo</strong>Primary lockup. Use for the app header, website, store listings and anywhere the name needs introducing.</figcaption><div class="dl" data-dl="logo-dark"></div></figure>
+      <figure class="bb-logo bb-logo--light bb-logo--wide"><img src="assets/brand/Logo_on_Light.svg" alt="Tesseract full logo on light"><figcaption><strong>Full logo · light</strong>Symbol switches to Deep Violet #7B19C9; wordmark to Ink.</figcaption><div class="dl" data-dl="logo-light"></div></figure>
+      <figure class="bb-logo bb-logo--dark"><img src="assets/brand/Short_Logo_on_Dark.svg" alt="T4 short logo on dark"><figcaption><strong>T4 short logo</strong>Product lockup for the app itself: title bars, Android launcher label, installers.</figcaption><div class="dl" data-dl="t4-dark"></div></figure>
+      <figure class="bb-logo bb-logo--light"><img src="assets/brand/Short_Logo_on_Light.svg" alt="T4 short logo on light"><figcaption><strong>T4 · light</strong>Same rules as the full logo.</figcaption><div class="dl" data-dl="t4-light"></div></figure>
+      <figure class="bb-logo bb-logo--dark bb-logo--sq"><img src="assets/brand/Icon_on_Dark.svg" alt="Tesseract symbol on dark"><figcaption><strong>Symbol</strong>App icon, favicon, avatars and the loader.</figcaption><div class="dl" data-dl="symbol"></div></figure>
+      <figure class="bb-logo bb-logo--dark bb-logo--sq"><div class="bb-logo__anim" role="img" aria-label="Animated Tesseract symbol building itself"><div class="bb-loopMark" data-loop-mark></div></div><figcaption><strong>Animated symbol</strong>The symbol building itself. Used for loading moments; see Graphic language.</figcaption><div class="dl" data-dl="animated"></div></figure>
+      <figure class="bb-logo bb-logo--violet bb-logo--sq"><div class="bb-logo__violet" role="img" aria-label="Tesseract symbol in white on violet"><img src="assets/brand/Icon_on_Dark.svg" alt="" class="is-white"></div><figcaption><strong>Symbol · on violet</strong>White only, as on the logo book's solid violet panel.</figcaption><div class="dl" data-dl="symbol-white"></div></figure>
+      <figure class="bb-logo bb-logo--dark bb-logo--wide"><img src="assets/brand/Type_on_Dark.svg" alt="Tesseract wordmark"><figcaption><strong>Wordmark</strong>Only where the symbol is already present nearby, such as a footer under the app icon.</figcaption><div class="dl" data-dl="wordmark-white"></div></figure>
+      <figure class="bb-logo bb-logo--light"><img src="assets/brand/Short_Type_on_Light.svg" alt="T4 wordmark"><figcaption><strong>T4 wordmark</strong>Inline product reference in running text or tight UI. Never as a replacement for the logo.</figcaption><div class="dl" data-dl="t4-wordmark-ink"></div></figure>
+    </div>
+
+    <div class="bb-grid2">
+      <div>
+        <h3 class="bb-h3">Clear space</h3>
+        <div class="bb-clear"><div class="bb-clear__box"><img src="assets/brand/Logo_on_Dark.svg" alt="Full logo with clear space"></div></div>
+        <p class="bb-p">Keep a margin of <strong>x</strong> on every side, where x is the height of the symbol's cross (about a quarter of the symbol's height). Nothing — text, edges, other marks — enters this zone. <span class="bb-tag">Proposed</span></p>
+      </div>
+      <div>
+        <h3 class="bb-h3">Minimum size</h3>
+        <div class="bb-minsize">
+          <div><img src="assets/brand/Logo_on_Dark.svg" alt="" style="height:24px"><span>Full logo · 24 px tall</span></div>
+          <div><img src="assets/brand/Short_Logo_on_Dark.svg" alt="" style="height:20px"><span>T4 logo · 20 px tall</span></div>
+          <div><img src="assets/brand/Icon_on_Dark.svg" alt="" style="height:16px"><span>Symbol · 16 px</span></div>
+        </div>
+        <p class="bb-p">Below these sizes the symbol's inner ring and square close up. At favicon size use the symbol alone. <span class="bb-tag">Proposed</span></p>
+      </div>
+    </div>
+
+    <h3 class="bb-h3">Treatments</h3>
+    <div class="bb-dos">
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Dark.svg" alt=""></div><figcaption><span class="ok">Do</span>Violet symbol, white wordmark on Ink.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--light"><img src="assets/brand/Logo_on_Light.svg" alt=""></div><figcaption><span class="ok">Do</span>Deep Violet symbol, Ink wordmark on white.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--violet"><img src="assets/brand/Icon_on_Dark.svg" alt="" class="is-white" style="height:64px"></div><figcaption><span class="ok">Do</span>All-white symbol on solid violet.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Dark.svg" alt="" style="filter:hue-rotate(-140deg)"></div><figcaption><span class="no">Don't</span>Recolor the symbol. Violet is the identity.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Dark.svg" alt="" style="transform:scaleX(1.35)"></div><figcaption><span class="no">Don't</span>Stretch, squash or re-space the lockup.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--pattern"><img src="assets/brand/Logo_on_Light.svg" alt=""></div><figcaption><span class="no">Don't</span>Place the logo over the pattern or busy imagery.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Dark.svg" alt="" style="filter:drop-shadow(0 0 8px #A700FF) drop-shadow(0 0 16px #A700FF)"></div><figcaption><span class="no">Don't</span>Add glow to the lockup. Glow belongs to large symbol crops only.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Light.svg" alt=""></div><figcaption><span class="no">Don't</span>Use the light-background version on dark.</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 02 COLOR -->
+  <section class="bb-sec" id="bb-color">
+    <header class="bb-sec__head"><span class="bb-num">02</span><h2>Color system</h2><p>Violet leads; Ink holds everything together. Official values come straight from the supplied logo files. Interface colors below them are supporting values added for usability. They are not brand specifications.</p></header>
+
+    <h3 class="bb-h3">Official brand colors <span class="bb-tag bb-tag--official">From logo files</span><div class="dl dl--end" data-dl="colors"></div></h3>
+    <div class="bb-swatches bb-swatches--hero">
+      <div class="sw sw--xl" style="--c:#A700FF"><div class="sw__chip"></div><strong>Tesseract Violet</strong><code>#A700FF</code><span>Symbol on dark. Primary actions, active states.</span></div>
+      <div class="sw sw--xl" style="--c:#7B19C9"><div class="sw__chip"></div><strong>Deep Violet</strong><code>#7B19C9</code><span>Symbol on light. Solid brand panels.</span></div>
+      <div class="sw sw--xl" style="--c:#111513"><div class="sw__chip sw__chip--line"></div><strong>Ink</strong><code>#111513</code><span>Dark brand background. Wordmark on light.</span></div>
+      <div class="sw sw--xl" style="--c:#FFFFFF"><div class="sw__chip"></div><strong>White</strong><code>#FFFFFF</code><span>Wordmark on dark. Primary text.</span></div>
+    </div>
+    <p class="bb-small">Also present in the files: <code>#111014</code> (full logotype on light, treat as Ink) and <code>#DCD6E2</code> (0.33 px hairline stroke on the dark wordmark).</p>
+
+    <h3 class="bb-h3">Gradients <span class="bb-tag bb-tag--sampled">Sampled from logo book</span></h3>
+    <div class="bb-grads">
+      <div class="grad" style="background:var(--grad-hero)"><div><strong>Violet light</strong><code>radial · #A700FF → #2B0D3D → #111014</code><span>Hero moments. Light comes from one corner, behind a large symbol crop.</span></div></div>
+      <div class="grad" style="background:var(--grad-panel)"><div><strong>Brand panel</strong><code>135° · #8711D8 → #7B19C9</code><span>Solid violet surfaces with white type, like "Bring your A game."</span></div></div>
+    </div>
+
+    <h3 class="bb-h3">Interface colors <span class="bb-tag">Supporting</span></h3>
+    <div class="bb-swatches">
+      <div class="sw" style="--c:#0B0D0C"><div class="sw__chip sw__chip--line"></div><strong>bg-0</strong><code>#0B0D0C</code><span>Window chrome</span></div>
+      <div class="sw" style="--c:#111513"><div class="sw__chip sw__chip--line"></div><strong>bg-1 · Ink</strong><code>#111513</code><span>App canvas</span></div>
+      <div class="sw" style="--c:#171A1C"><div class="sw__chip sw__chip--line"></div><strong>bg-2</strong><code>#171A1C</code><span>Panels</span></div>
+      <div class="sw" style="--c:#1E2124"><div class="sw__chip sw__chip--line"></div><strong>bg-3</strong><code>#1E2124</code><span>Inputs, raised</span></div>
+      <div class="sw" style="--c:#262A2F"><div class="sw__chip"></div><strong>line</strong><code>#262A2F</code><span>Dividers</span></div>
+      <div class="sw" style="--c:#383D44"><div class="sw__chip"></div><strong>line-strong</strong><code>#383D44</code><span>Control borders</span></div>
+      <div class="sw" style="--c:#F4F2F7"><div class="sw__chip"></div><strong>text-1</strong><code>#F4F2F7</code><span>Primary text · 16.6:1</span></div>
+      <div class="sw" style="--c:#B7B3BF"><div class="sw__chip"></div><strong>text-2</strong><code>#B7B3BF</code><span>Secondary · 9.0:1</span></div>
+      <div class="sw" style="--c:#8E8A99"><div class="sw__chip"></div><strong>text-3</strong><code>#8E8A99</code><span>Metadata · 5.5:1</span></div>
+      <div class="sw" style="--c:#C77DFF"><div class="sw__chip"></div><strong>violet-300</strong><code>#C77DFF</code><span>Violet text, links, focus · 6.8:1</span></div>
+    </div>
+    <h3 class="bb-h3 bb-h3--sm">Semantic <span class="bb-tag">Supporting</span></h3>
+    <div class="bb-swatches">
+      <div class="sw" style="--c:#3DD68C"><div class="sw__chip"></div><strong>Success</strong><code>#3DD68C</code><span>Ready, linked, online</span></div>
+      <div class="sw" style="--c:#F5B544"><div class="sw__chip"></div><strong>Warning</strong><code>#F5B544</code><span>Degraded connection</span></div>
+      <div class="sw" style="--c:#FF6B85"><div class="sw__chip"></div><strong>Error</strong><code>#FF6B85</code><span>Failures, destructive</span></div>
+      <div class="sw" style="--c:#6CB4FF"><div class="sw__chip"></div><strong>Info</strong><code>#6CB4FF</code><span>Neutral notices</span></div>
+    </div>
+
+    <h3 class="bb-h3">Combinations</h3>
+    <div class="bb-combos">
+      <div class="combo" style="background:#A700FF;color:#fff"><b>Play Steam</b><span class="ok">White on Violet · 5.1:1</span></div>
+      <div class="combo" style="background:#111513;color:#C77DFF"><b>All streaming options…</b><span class="ok">Violet-300 on Ink · 6.8:1</span></div>
+      <div class="combo" style="background:#7B19C9;color:#fff"><b>Bring your A game.</b><span class="ok">White on Deep Violet · 7.4:1</span></div>
+      <div class="combo" style="background:#111513;color:#7B19C9"><b>Small violet label</b><span class="no">Deep Violet on Ink · 2.5:1</span></div>
+      <div class="combo" style="background:#111513;color:#A700FF;font-size:13px"><b style="font-weight:500">Body text in violet</b><span class="no">Violet on Ink, small text · 3.6:1</span></div>
+      <div class="combo" style="background:#A700FF;color:#111513"><b>Ink on Violet</b><span class="no">Muddy, off-brand pairing</span></div>
+    </div>
+  </section>
+
+  <!-- 03 TYPE -->
+  <section class="bb-sec" id="bb-type">
+    <header class="bb-sec__head"><span class="bb-num">03</span><h2>Typography</h2><p>Manrope is the brand typeface. It is set in the logotype (Manrope Bold) and the logo book's display copy (Manrope ExtraLight). It ships with the app as local WOFF2 files under the SIL Open Font License, so there is no fallback for brand surfaces. System UI fonts are used only by third-party screens such as the Steam handoff.</p></header>
+    <div class="bb-typeHero">
+      <span class="bb-typeHero__aa">Aa</span>
+      <div><strong>Manrope</strong><p>200 ExtraLight · 400 Regular · 500 Medium · 600 SemiBold · 700 Bold · 800 ExtraBold</p><p class="bb-typeHero__chars">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 · ms · Mbps · FPS</p><div class="dl" data-dl="fonts"></div></div>
+    </div>
+    <div class="bb-scale">
+      <div class="bb-scale__row"><span class="bb-scale__spec">Display<br><code>44 / 52 · 200 · −0.01em</code></span><span style="font-size:44px;font-weight:200;letter-spacing:-.01em;line-height:1.18">Welcome, tulgaa.brandon</span></div>
+      <div class="bb-scale__row"><span class="bb-scale__spec">Title<br><code>26 / 32 · 600</code></span><span style="font-size:26px;font-weight:600;line-height:1.23">Stream settings</span></div>
+      <div class="bb-scale__row"><span class="bb-scale__spec">Heading<br><code>18 / 24 · 600</code></span><span style="font-size:18px;font-weight:600">More platforms</span></div>
+      <div class="bb-scale__row"><span class="bb-scale__spec">Body<br><code>15 / 23 · 400</code></span><span style="font-size:15px;line-height:1.55;color:var(--text-2)">Steam runs on your T4 gaming rig and keeps you signed in. Press Play to open your library.</span></div>
+      <div class="bb-scale__row"><span class="bb-scale__spec">Label<br><code>13 / 18 · 600</code></span><span style="font-size:13px;font-weight:600">Frame rate</span></div>
+      <div class="bb-scale__row"><span class="bb-scale__spec">Button<br><code>14 / 20 · 700 · +0.01em</code></span><span style="font-size:14px;font-weight:700;letter-spacing:.01em">Start streaming</span></div>
+      <div class="bb-scale__row"><span class="bb-scale__spec">Meta<br><code>12 / 16 · 500 · tabular</code></span><span style="font-size:12px;font-weight:500;color:var(--text-3);font-variant-numeric:tabular-nums">Delay 9 ms · Jitter 5 ms · Loss 0 %</span></div>
+    </div>
+    <ul class="bb-rules">
+      <li><strong>ExtraLight is for display only.</strong> At 32 px and up it carries the brand's calm, technical voice. Never set body text below 400.</li>
+      <li><strong>Sentence case everywhere</strong>, including buttons ("Play Steam", "Start streaming"). Uppercase is reserved for the logotype.</li>
+      <li><strong>Numbers are tabular</strong> wherever they update live: latency, bitrate, progress.</li>
+    </ul>
+  </section>
+
+  <!-- 04 GRAPHIC -->
+  <section class="bb-sec" id="bb-graphic">
+    <header class="bb-sec__head"><span class="bb-num">04</span><h2>Graphic language</h2><p>Two supporting graphics: the repeating symbol pattern and the oversized symbol crop. Use one per surface, never both.</p></header>
+    <h3 class="bb-h3">Pattern<div class="dl dl--end" data-dl="pattern"></div></h3>
+    <div class="bb-patterns">
+      <figure><div class="pat pat--a"></div><figcaption><strong>Fine · 12% on violet</strong>Brand panels, splash screens. Fades out toward the type.</figcaption></figure>
+      <figure><div class="pat pat--b"></div><figcaption><strong>Medium · 6% on Ink</strong>Empty states and onboarding backgrounds.</figcaption></figure>
+      <figure><div class="pat pat--c"></div><figcaption><strong>Large crop · 18% on violet</strong>Marketing edges: bleed off one side only.</figcaption></figure>
+    </div>
+    <h3 class="bb-h3">Symbol as graphic<div class="dl dl--end" data-dl="outline"></div></h3>
+    <div class="bb-crop">
+      <div class="bb-crop__art"><img src="assets/brand/Icon_Outline.svg" alt=""></div>
+      <div class="bb-crop__text"><p class="bb-cover__tag" style="font-size:28px">Bring your A game.<br><span>We'll bring the rest.</span></p><p class="bb-p">The logo book's signature move: the symbol scaled far past the frame and drawn as a thin white outline, like a neon tube, with violet light around it. Crop it so only two faces remain. In the app it appears once, faintly, behind the Steam panel. Always use the outline file, never a blurred copy of the filled symbol.</p></div>
+    </div>
+
+    <h3 class="bb-h3">Animated symbol <span class="bb-tag bb-tag--official">Brand element</span><div class="dl dl--end" data-dl="animated"></div></h3>
+    <p class="bb-p bb-lead">The third graphic element is the symbol in motion. It starts as a single point where the cube's three faces meet, draws the cube outward from that point, then adds the controller marks one at a time: ring, square, cross. It tells the product story in under two seconds: a battlestation assembling itself from nothing, ready to play.</p>
+
+    <div class="bb-board" aria-label="The build, frame by frame">
+      <figure><div class="bb-board__art"><div class="bb-frame" data-frame="1"></div></div><figcaption><span class="mono">0.00 s</span><strong>Point</strong>One dot where the three faces meet.</figcaption></figure>
+      <figure><div class="bb-board__art"><div class="bb-frame" data-frame="2"></div></div><figcaption><span class="mono">0.25 s</span><strong>Edges</strong>Three lines grow out of the dot together.</figcaption></figure>
+      <figure><div class="bb-board__art"><div class="bb-frame" data-frame="3"></div></div><figcaption><span class="mono">1.05 s</span><strong>Ring</strong>The left face's ring draws in one pass.</figcaption></figure>
+      <figure><div class="bb-board__art"><div class="bb-frame" data-frame="4"></div></div><figcaption><span class="mono">1.30 s</span><strong>Square</strong>The right face's square follows.</figcaption></figure>
+      <figure><div class="bb-board__art"><div class="bb-frame" data-frame="5"></div></div><figcaption><span class="mono">1.55 s</span><strong>Cross</strong>The cross grows out from its center. Done at 1.9 s.</figcaption></figure>
+    </div>
+
+    <div class="bb-motion">
+      <div class="bb-motion__stage">
+        <div class="bb-motion__mark" id="bbMark" data-mark></div>
+        <button type="button" class="btn btn--secondary btn--sm" id="bbReplay">Replay</button>
+      </div>
+      <div class="bb-motion__spec">
+        <h4>Specification</h4>
+        <dl>
+          <div><dt>Source</dt><dd><code>Icon_Line.svg</code>, a single-line version of the symbol that follows the original strokes, so the last frame matches the logo exactly.<div class="dl dl--inline" data-dl="line"></div></dd></div>
+          <div><dt>Duration</dt><dd>1.9 s. Never speed it up or loop it.</dd></div>
+          <div><dt>Easing</dt><dd>Edges ease in and out; the marks ease out, landing softly.</dd></div>
+          <div><dt>Color</dt><dd>Tesseract Violet on Ink with a soft violet glow, or a white outline (neon) on violet light.</dd></div>
+          <div><dt>Reduce motion</dt><dd>Show the finished symbol with no drawing.</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <h3 class="bb-h3 bb-h3--sm">Where it plays</h3>
+    <ul class="bb-rules bb-rules--tight">
+      <li><strong>Opening the app.</strong> The symbol builds, then the wordmark slides in beside it.</li>
+      <li><strong>Pressing Play.</strong> It builds while the rig wakes, then turns edge-on as the stream opens. On the way back the cube returns into the Play button.</li>
+      <li><strong>Android launch sheet.</strong> A smaller build at 56 dp while the stream connects.</li>
+    </ul>
+    <div class="bb-dos bb-dos--motion">
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><div class="bb-frame bb-frame--sm" data-frame="5"></div></div><figcaption><span class="ok">Do</span>Play it once, at the start of a real wait.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--glow"><img src="assets/brand/Icon_Outline.svg" alt="" class="bb-neon"></div><figcaption><span class="ok">Do</span>Use the neon outline for hero moments.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><div class="bb-frame bb-frame--sm bb-frame--wrong" data-frame="5"></div></div><figcaption><span class="no">Don't</span>Recolor it, or draw it in a different order.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark bb-do__art--text"><div class="bb-frame bb-frame--bg" data-frame="3"></div><p>Waking your rig and starting Steam…</p></div><figcaption><span class="no">Don't</span>Run it behind text or as background decoration.</figcaption></figure>
+    </div>
+
+    <h3 class="bb-h3">Light and readability</h3>
+    <div class="bb-dos bb-dos--2">
+      <figure class="bb-do"><div class="bb-do__art bb-light-good"><span>Play Steam</span><small>Rig is ready</small></div><figcaption><span class="ok">Do</span>One light source, one corner. Text sits on the dark side, at full contrast.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-light-bad"><span>Play Steam</span><small>Rig is ready</small></div><figcaption><span class="no">Don't</span>Wash the surface in multi-color fog, or put glow behind small text.</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 05 COMPONENTS -->
+  <section class="bb-sec" id="bb-components">
+    <header class="bb-sec__head"><span class="bb-num">05</span><h2>Desktop components</h2><p>These are the live controls the app uses. Hover, focus and click them.</p></header>
+
+    <h3 class="bb-h3">Buttons</h3>
+    <div class="bb-demo">
+      <div class="bb-demo__row">
+        <button class="btn btn--play" type="button"><svg class="ic"><use href="#i-play"/></svg><span>Play Steam</span></button>
+        <button class="btn btn--primary" type="button">Start streaming</button>
+        <button class="btn btn--secondary" type="button">Cancel</button>
+        <button class="btn btn--ghost" type="button"><svg class="ic"><use href="#i-gear"/></svg>Stream settings</button>
+        <button class="link-btn" type="button">All streaming options…</button>
+      </div>
+      <div class="bb-states">
+        <div><button class="btn btn--primary" type="button">Default</button><span>Default</span></div>
+        <div><button class="btn btn--primary is-hover" type="button">Hover</button><span>Hover · +8% light</span></div>
+        <div><button class="btn btn--primary is-focus" type="button">Focus</button><span>2 px ring · #C77DFF</span></div>
+        <div><button class="btn btn--primary is-press" type="button">Pressed</button><span>Pressed · 98%</span></div>
+        <div><button class="btn btn--primary" type="button" disabled>Disabled</button><span>Disabled · 40%</span></div>
+        <div><button class="btn btn--primary is-loading" type="button" data-demo="loading"><span class="spinner"></span>Connecting…</button><span>Loading</span></div>
+      </div>
+      <div class="bb-demo__row">
+        <button class="icon-btn" type="button" aria-label="Close"><svg><use href="#i-close"/></svg></button>
+        <button class="icon-btn" type="button" aria-label="Settings"><svg><use href="#i-gear"/></svg></button>
+        <button class="fab fab--static" type="button" aria-label="Message support"><svg><use href="#i-chat"/></svg></button>
+        <span class="bb-small">Icon buttons: 32 px hit area minimum (36 px default), tooltip on hover.</span>
+      </div>
+    </div>
+
+    <h3 class="bb-h3">Navigation</h3>
+    <div class="bb-demo">
+      <div class="bb-demo__row app-nav bb-navdemo" role="group" aria-label="Navigation example">
+        <button type="button" class="app-nav__item is-active"><svg class="ic"><use href="#i-home"/></svg>Home</button>
+        <button type="button" class="app-nav__item"><svg class="ic"><use href="#i-sliders"/></svg>Settings</button>
+      </div>
+      <div class="bb-demo__row">
+        <div role="tablist" class="tabs" aria-label="Tabs example" data-demo-tabs>
+          <button role="tab" type="button" aria-selected="true">Video</button>
+          <button role="tab" type="button" aria-selected="false" tabindex="-1">Audio</button>
+          <button role="tab" type="button" aria-selected="false" tabindex="-1">Gamepad</button>
+          <button role="tab" type="button" aria-selected="false" tabindex="-1" disabled>Cloud saves</button>
+        </div>
+        <span class="bb-small" data-demo-tabout>Selected: Video</span>
+      </div>
+    </div>
+
+    <h3 class="bb-h3">Inputs</h3>
+    <div class="bb-demo bb-demo--grid">
+      <div class="field"><label for="bbIn">Rig name</label><input id="bbIn" class="input" value="Tesseract-Dev"></div>
+      <div class="field"><label for="bbIn2">Rig address</label><input id="bbIn2" class="input input--error" value="45.117.32" aria-describedby="bbIn2e"><small id="bbIn2e" class="field__err">Enter a full IP address and port.</small></div>
+      <div class="field"><label for="bbSel">Frame rate</label><div class="select"><select id="bbSel"><option>30 FPS</option><option selected>60 FPS</option><option>120 FPS</option></select></div></div>
+      <div class="field"><label for="bbDis">Video decoder</label><div class="select"><select id="bbDis" disabled><option>Automatic (recommended)</option></select></div></div>
+      <div class="field"><label for="bbRange">Bitrate</label><div class="range"><input type="range" id="bbRange" min="5" max="80" step="0.5" value="20.5"><output for="bbRange">20.5 Mbps</output></div></div>
+      <div class="field bb-checks">
+        <label class="switch"><input type="checkbox" role="switch" checked><span class="switch__track"></span>V-Sync</label>
+        <label class="switch"><input type="checkbox" role="switch"><span class="switch__track"></span>Frame pacing</label>
+        <label class="check"><input type="checkbox" checked><span class="check__box"><svg><use href="#i-check"/></svg></span>Show before every launch</label>
+        <label class="check"><input type="checkbox" disabled><span class="check__box"><svg><use href="#i-check"/></svg></span>Disabled option</label>
+      </div>
+    </div>
+
+    <h3 class="bb-h3">Feedback</h3>
+    <div class="bb-demo">
+      <div class="bb-demo__row">
+        <span class="status status--ok"><svg class="ic ic--xs"><use href="#i-check"/></svg>Set up on your rig</span>
+        <span class="status status--warn">Unstable connection</span>
+        <span class="status status--err">Rig offline</span>
+        <span class="status">Not connected</span>
+        <span class="tip-wrap"><button class="btn btn--secondary btn--sm" type="button" aria-describedby="bbTip">Hover for tooltip</button><span role="tooltip" id="bbTip" class="tooltip">Higher bitrates need a faster connection</span></span>
+      </div>
+      <div class="bb-demo__row">
+        <button class="btn btn--secondary btn--sm" type="button" data-demo-toast="ok">Success toast</button>
+        <button class="btn btn--secondary btn--sm" type="button" data-demo-toast="warn">Warning toast</button>
+        <button class="btn btn--secondary btn--sm" type="button" data-demo-toast="err">Error toast</button>
+        <button class="btn btn--secondary btn--sm" type="button" data-demo-dialog>Open dialog</button>
+      </div>
+      <div class="bb-toasts" id="bbToasts" aria-live="polite"></div>
+      <div class="bb-dialog" id="bbDialog" role="dialog" aria-modal="true" aria-labelledby="bbDlgT" hidden>
+        <div class="bb-dialog__card">
+          <h4 id="bbDlgT">Disconnect Epic Games?</h4>
+          <p>Games from Epic will stop appearing on your rig until you connect again.</p>
+          <div class="bb-dialog__btns"><button type="button" class="btn btn--secondary" data-dlg-close>Cancel</button><button type="button" class="btn btn--danger" data-dlg-close>Disconnect</button></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="bb-h3">Platform row</h3>
+    <p class="bb-p">Cards appear only where the product has a real object to show: the rig and each store. Third-party stores get neutral monogram tiles so the violet stays with Tesseract.</p>
+    <ul class="plat-grid plat-grid--demo" id="bbPlat"></ul>
+  </section>
+
+  <!-- 06 DESKTOP -->
+  <section class="bb-sec" id="bb-desktop">
+    <header class="bb-sec__head"><span class="bb-num">06</span><h2>Desktop application</h2><p>T4 is a utility you open, press Play in, and leave. The layout keeps one obvious action per screen and pushes configuration one step away.</p></header>
+    <div class="bb-anatomy">
+      <div class="anat">
+        <div class="anat__title">Title bar · bg-0</div>
+        <div class="anat__header">App header · logo · nav · account</div>
+        <div class="anat__body">
+          <div class="anat__hero">Rig panel · bg-2 + symbol crop · <b>Play</b></div>
+          <div class="anat__grid"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="anat__status">Status bar · connection telemetry</div>
+      </div>
+      <ol class="bb-layers">
+        <li><span class="layer" style="--c:#0B0D0C"></span><strong>L0 · Chrome</strong> Title bar and status bar. Recedes.</li>
+        <li><span class="layer" style="--c:#111513"></span><strong>L1 · Canvas</strong> Ink. Where the content lives.</li>
+        <li><span class="layer" style="--c:#171A1C"></span><strong>L2 · Panel</strong> The rig hero, platform grid, settings groups.</li>
+        <li><span class="layer" style="--c:#1E2124"></span><strong>L3 · Control</strong> Inputs, selects, secondary buttons.</li>
+        <li><span class="layer" style="--c:#1E2124;box-shadow:0 0 0 1px #383D44,0 12px 24px rgba(0,0,0,.6)"></span><strong>L4 · Overlay</strong> Popovers and menus: border plus shadow, no blur.</li>
+      </ol>
+    </div>
+    <div class="bb-specs">
+      <div><h4>Spacing</h4><div class="bb-space"><span style="--w:4px">4</span><span style="--w:8px">8</span><span style="--w:12px">12</span><span style="--w:16px">16</span><span style="--w:24px">24</span><span style="--w:32px">32</span><span style="--w:48px">48</span><span style="--w:64px">64</span></div><p>4 px base. 24 between groups, 16 inside panels, 48 between page sections.</p></div>
+      <div><h4>Radius</h4><div class="bb-radii"><span style="border-radius:6px">6</span><span style="border-radius:10px">10</span><span style="border-radius:14px">14</span><span style="border-radius:999px">pill</span></div><p>6 for controls, 10 for buttons and popovers, 14 for panels. Pill only for Play and status.</p></div>
+      <div><h4>Borders</h4><p>Hairline 1 px <code>line</code> separates; 1 px <code>line-strong</code> outlines controls. Violet borders only mean "selected" or "focused".</p></div>
+      <div><h4>Window</h4><p>Minimum 960 × 640. Content max-width 1100 px, centered. Below 1100 px the platform grid drops to two columns.</p></div>
+    </div>
+  </section>
+
+  <!-- 07 ANDROID -->
+  <section class="bb-sec" id="bb-android">
+    <header class="bb-sec__head"><span class="bb-num">07</span><h2>Android design</h2><p>The companion app follows Material 3 structure (bottom navigation, bottom sheets, filled and tonal buttons) dressed in Tesseract color and type.</p></header>
+    <div class="bb-grid2">
+      <div>
+        <h3 class="bb-h3 bb-h3--sm">Mobile type</h3>
+        <div class="bb-scale bb-scale--sm">
+          <div class="bb-scale__row"><span class="bb-scale__spec">Headline · 26/32 · 300</span><span style="font-size:26px;font-weight:300">Welcome back</span></div>
+          <div class="bb-scale__row"><span class="bb-scale__spec">Title · 18/24 · 700</span><span style="font-size:18px;font-weight:700">Steam</span></div>
+          <div class="bb-scale__row"><span class="bb-scale__spec">Body · 15/22 · 400</span><span style="font-size:15px;color:var(--text-2)">Tesseract-Dev is ready</span></div>
+          <div class="bb-scale__row"><span class="bb-scale__spec">Nav label · 12/16 · 600</span><span style="font-size:12px;font-weight:600">Stream</span></div>
+        </div>
+      </div>
+      <div>
+        <h3 class="bb-h3 bb-h3--sm">Touch & layout</h3>
+        <ul class="bb-rules bb-rules--tight">
+          <li><strong>48 dp</strong> minimum touch target; Play is 56 dp tall, full width.</li>
+          <li><strong>16 dp</strong> screen gutters, 12 dp between cards.</li>
+          <li>Bottom nav: 4 destinations, active item gets a violet-tint pill.</li>
+          <li>Destructive or long actions open a <strong>bottom sheet</strong>, never a centered dialog.</li>
+          <li>Layouts reflow to two columns from 600 dp (tablets, foldables).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="bb-mobileComps">
+      <div class="mc"><button class="a-play" type="button"><svg class="ic"><use href="#i-play"/></svg>Play Steam</button><span>Primary action · 56 dp</span></div>
+      <div class="mc"><div class="a-seg" role="radiogroup" aria-label="Preset example" data-demo-seg><button type="button" role="radio" aria-checked="false">Data saver</button><button type="button" role="radio" aria-checked="true">Balanced</button><button type="button" role="radio" aria-checked="false">Max</button></div><span>Segmented control</span></div>
+      <div class="mc"><nav class="a-nav a-nav--demo" aria-label="Nav example" data-demo-anav><button type="button" class="is-active"><span class="a-nav__pill"><svg><use href="#i-home"/></svg></span>Home</button><button type="button"><span class="a-nav__pill"><svg><use href="#i-sliders"/></svg></span>Stream</button><button type="button"><span class="a-nav__pill"><svg><use href="#i-rig"/></svg></span>Rig</button></nav><span>Bottom navigation</span></div>
+      <div class="mc"><div class="a-card a-card--list" style="width:100%"><label class="a-toggle"><span>Keep screen awake</span><span class="switch"><input type="checkbox" role="switch" checked><span class="switch__track"></span></span></label></div><span>List toggle row · 56 dp</span></div>
+    </div>
+    <p class="bb-p"><button type="button" class="link-btn" data-action="open-phone-from-book">Open the Android prototype →</button></p>
+  </section>
+
+  <!-- 08 A11Y -->
+  <section class="bb-sec" id="bb-a11y">
+    <header class="bb-sec__head"><span class="bb-num">08</span><h2>Accessibility &amp; implementation</h2><p>The rules that keep the system usable and keep it Tesseract as it grows.</p></header>
+    <div class="bb-grid2">
+      <div>
+        <h3 class="bb-h3 bb-h3--sm">Contrast</h3>
+        <table class="bb-table">
+          <thead><tr><th>Pair</th><th>Ratio</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td>text-1 on Ink</td><td class="mono">16.6</td><td>All text</td></tr>
+            <tr><td>text-3 on bg-2</td><td class="mono">5.2</td><td>Metadata (AA)</td></tr>
+            <tr><td>White on Violet</td><td class="mono">5.1</td><td>Buttons (AA)</td></tr>
+            <tr><td>violet-300 on Ink</td><td class="mono">6.8</td><td>Violet text, focus</td></tr>
+            <tr><td>Violet on Ink</td><td class="mono">3.6</td><td>Shapes, icons, ≥ 24 px text only</td></tr>
+            <tr><td>Deep Violet on Ink</td><td class="mono">2.5</td><td>Never for text on dark</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 class="bb-h3 bb-h3--sm">Violet or violet-300?</h3>
+        <ul class="bb-rules bb-rules--tight">
+          <li><strong>#A700FF</strong> fills: primary buttons, selected switches, slider tracks, the symbol.</li>
+          <li><strong>#C77DFF</strong> for anything that is <em>read</em> on dark: links, violet labels, focus rings.</li>
+          <li><strong>#7B19C9</strong> on light surfaces and solid brand panels.</li>
+        </ul>
+        <h3 class="bb-h3 bb-h3--sm">Focus &amp; motion</h3>
+        <div class="bb-focusDemo"><button class="btn btn--secondary is-focus" type="button">Focused</button><span>2 px #C77DFF ring, 2 px offset, on every interactive element via <code>:focus-visible</code>.</span></div>
+        <p class="bb-p">Transitions are 120–420 ms with one easing curve. With <em>reduce motion</em> on, transitions drop to zero, the logo build shows its final frame, and the teleport becomes a simple crossfade.</p>
+      </div>
+    </div>
+    <h3 class="bb-h3 bb-h3--sm">Implementation</h3>
+    <pre class="bb-code"><code>/* css/tokens.css — use roles, never raw hex in components */
+.btn--primary { background: var(--brand-violet); color: var(--brand-white); }
+.link-btn     { color: var(--violet-300); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+/* spacing: var(--s-1 … --s-8) = 4 8 12 16 24 32 48 64 */
+/* radii:   var(--r-sm|md|lg|pill) = 6 10 14 999 */</code></pre>
+    <ul class="bb-rules">
+      <li><strong>Add a token before a hex.</strong> New colors go into <code>tokens.css</code>, labelled official, sampled or supporting.</li>
+      <li><strong>Every control does something.</strong> If a feature isn't ready, hide it. Don't ship disabled decoration.</li>
+      <li><strong>Third parties stay neutral.</strong> Store tiles and handoff screens never borrow Tesseract violet.</li>
+      <li><strong>Use the supplied SVGs.</strong> Never retype the wordmark or redraw the symbol. Outlined copies in <code>assets/brand/</code> render identically without the font installed.</li>
+    </ul>
+    <footer class="bb-end"><img src="assets/brand/Icon_on_Dark.svg" alt="" width="40" height="46"><p>Bring your A game. <span>We'll bring the rest.</span></p></footer>
+  </section>
+
+  <!-- 09 DOWNLOADS -->
+  <section class="bb-sec" id="bb-downloads">
+    <header class="bb-sec__head"><span class="bb-num">09</span><h2>Downloads</h2><p>Every asset in this book, in the formats people actually ask for. Use SVG and PDF wherever you can: they stay sharp at any size. PNGs have transparent backgrounds.</p></header>
+    <div class="dlt__kit"><div><strong>Complete brand kit</strong><span>All logos, graphics, motion, colors and fonts, with a README, in one ZIP.</span></div><div class="dl dl--primary" data-dl="kit"></div></div>
+    <ul class="dlt">
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--dark"><img src="assets/brand/Logo_on_Dark.svg" alt=""></span><span class="dlt__name"><strong>Tesseract logo</strong><span>Dark backgrounds</span></span><span class="dlt__fmts" data-dl-fmts="logo-dark"></span><div class="dl dl--end" data-dl="logo-dark"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--light"><img src="assets/brand/Logo_on_Light.svg" alt=""></span><span class="dlt__name"><strong>Tesseract logo</strong><span>Light backgrounds</span></span><span class="dlt__fmts" data-dl-fmts="logo-light"></span><div class="dl dl--end" data-dl="logo-light"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--dark"><img src="assets/brand/Short_Logo_on_Dark.svg" alt=""></span><span class="dlt__name"><strong>T4 logo</strong><span>Dark backgrounds</span></span><span class="dlt__fmts" data-dl-fmts="t4-dark"></span><div class="dl dl--end" data-dl="t4-dark"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--light"><img src="assets/brand/Short_Logo_on_Light.svg" alt=""></span><span class="dlt__name"><strong>T4 logo</strong><span>Light backgrounds</span></span><span class="dlt__fmts" data-dl-fmts="t4-light"></span><div class="dl dl--end" data-dl="t4-light"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--dark"><img src="assets/brand/Icon_on_Dark.svg" alt=""></span><span class="dlt__name"><strong>Symbol</strong><span>Violet and Deep Violet</span></span><span class="dlt__fmts" data-dl-fmts="symbol"></span><div class="dl dl--end" data-dl="symbol"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--violet"><img src="assets/brand/Icon_White.svg" alt=""></span><span class="dlt__name"><strong>Symbol, white</strong><span>On violet panels</span></span><span class="dlt__fmts" data-dl-fmts="symbol-white"></span><div class="dl dl--end" data-dl="symbol-white"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--dark"><img src="assets/brand/Type_on_Dark.svg" alt=""></span><span class="dlt__name"><strong>Wordmark</strong><span>White, for dark backgrounds</span></span><span class="dlt__fmts" data-dl-fmts="wordmark-white"></span><div class="dl dl--end" data-dl="wordmark-white"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--light"><img src="assets/brand/Type_on_Light.svg" alt=""></span><span class="dlt__name"><strong>Wordmark</strong><span>Ink, for light backgrounds</span></span><span class="dlt__fmts" data-dl-fmts="wordmark-ink"></span><div class="dl dl--end" data-dl="wordmark-ink"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--light"><img src="assets/brand/Short_Type_on_Light.svg" alt=""></span><span class="dlt__name"><strong>T4 wordmark</strong><span>Ink and white</span></span><span class="dlt__fmts" data-dl-fmts="t4-wordmark-ink"></span><div class="dl dl--end" data-dl="t4-wordmark-ink"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--anim"><img src="assets/brand/Icon_on_Dark.svg" alt=""></span><span class="dlt__name"><strong>Animated symbol</strong><span>Video, GIF and animated SVG</span></span><span class="dlt__fmts" data-dl-fmts="animated"></span><div class="dl dl--end" data-dl="animated"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--violet"><img src="assets/brand/Icon_Outline.svg" alt=""></span><span class="dlt__name"><strong>Neon outline symbol</strong><span>Hero crops and glow</span></span><span class="dlt__fmts" data-dl-fmts="outline"></span><div class="dl dl--end" data-dl="outline"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--dark"><img src="assets/brand/Icon_Line.svg" alt=""></span><span class="dlt__name"><strong>Single-line symbol</strong><span>Motion source</span></span><span class="dlt__fmts" data-dl-fmts="line"></span><div class="dl dl--end" data-dl="line"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--dark"><img src="assets/brand/Pattern.svg" alt=""></span><span class="dlt__name"><strong>Pattern</strong><span>Brand panels and edges</span></span><span class="dlt__fmts" data-dl-fmts="pattern"></span><div class="dl dl--end" data-dl="pattern"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--colors"><i style="background:#A700FF"></i><i style="background:#7B19C9"></i><i style="background:#111513"></i><i style="background:#fff"></i></span><span class="dlt__name"><strong>Color palette</strong><span>Official and supporting colors</span></span><span class="dlt__fmts" data-dl-fmts="colors"></span><div class="dl dl--end" data-dl="colors"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--type">Aa</span><span class="dlt__name"><strong>Manrope</strong><span>Brand typeface, OFL</span></span><span class="dlt__fmts" data-dl-fmts="fonts"></span><div class="dl dl--end" data-dl="fonts"></div></li>
+    </ul>
+  </section>
+</template>
+
+<script src="js/logos.js" defer></script>
+<script src="js/downloads.js" defer></script>
+<script src="js/app.js" defer></script>
+</body>
+</html>

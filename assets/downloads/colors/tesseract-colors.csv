@@ -1,0 +1,20 @@
+name,hex,r,g,b,type
+Tesseract Violet,#A700FF,167,0,255,official
+Deep Violet,#7B19C9,123,25,201,official
+Ink,#111513,17,21,19,official
+White,#FFFFFF,255,255,255,official
+Ink Alt,#111014,17,16,20,official
+Wordmark Stroke,#DCD6E2,220,214,226,official
+Violet 300,#C77DFF,199,125,255,supporting
+bg-0,#0B0D0C,11,13,12,supporting
+bg-2,#171A1C,23,26,28,supporting
+bg-3,#1E2124,30,33,36,supporting
+Line,#262A2F,38,42,47,supporting
+Line Strong,#383D44,56,61,68,supporting
+Text 1,#F4F2F7,244,242,247,supporting
+Text 2,#B7B3BF,183,179,191,supporting
+Text 3,#8E8A99,142,138,153,supporting
+Success,#3DD68C,61,214,140,supporting
+Warning,#F5B544,245,181,68,supporting
+Error,#FF6B85,255,107,133,supporting
+Info,#6CB4FF,108,180,255,supporting

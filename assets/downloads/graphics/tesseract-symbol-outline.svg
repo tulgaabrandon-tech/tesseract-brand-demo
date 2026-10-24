@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Tesseract symbol, thin outline (neon tube treatment). Traces the outer contour of the symbol's merged strokes. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 88.62 101.17">
+  <defs>
+    <mask id="cut" maskUnits="userSpaceOnUse" x="-2" y="-2" width="91" height="104">
+      <rect x="-2" y="-2" width="91" height="104" fill="#fff"/>
+      <g fill="none" stroke="#000" stroke-width="5.02" stroke-linecap="round" stroke-linejoin="round"><path d="M43.31 49.65 L43.31 96.54 L2.63 73.06 L2.63 39.37"/><path d="M43.31 49.65 L2.63 26.14 L43.31 2.83 L72.54 19.73"/><path d="M43.31 49.65 L83.99 26.14 L83.99 73.06 L54.77 89.94"/><path d="M22.97 51.85 C28.28 54.92 32.59 61.71 32.59 67.02 C32.59 72.34 28.28 74.16 22.97 71.09 C17.66 68.02 13.35 61.23 13.35 55.92 C13.35 50.60 17.66 48.78 22.97 51.85Z"/><path d="M54.88 57.64 L72.43 47.51 L72.43 65.06 L54.88 75.19 Z"/><path d="M43.31 26.14 H26.71"/><path d="M43.31 26.14 H59.91"/><path d="M43.31 26.14 V15.69"/><path d="M43.31 26.14 V36.59"/></g>
+    </mask>
+  </defs>
+  <g fill="none" stroke="#fff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" mask="url(#cut)"><path d="M43.31 49.65 L43.31 96.54 L2.63 73.06 L2.63 39.37"/><path d="M43.31 49.65 L2.63 26.14 L43.31 2.83 L72.54 19.73"/><path d="M43.31 49.65 L83.99 26.14 L83.99 73.06 L54.77 89.94"/><path d="M22.97 51.85 C28.28 54.92 32.59 61.71 32.59 67.02 C32.59 72.34 28.28 74.16 22.97 71.09 C17.66 68.02 13.35 61.23 13.35 55.92 C13.35 50.60 17.66 48.78 22.97 51.85Z"/><path d="M54.88 57.64 L72.43 47.51 L72.43 65.06 L54.88 75.19 Z"/><path d="M43.31 26.14 H26.71"/><path d="M43.31 26.14 H59.91"/><path d="M43.31 26.14 V15.69"/><path d="M43.31 26.14 V36.59"/></g>
+</svg>

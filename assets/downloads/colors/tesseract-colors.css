@@ -1,0 +1,25 @@
+:root {
+  /* official */
+  --tesseract-violet: #A700FF;
+  --deep-violet: #7B19C9;
+  --ink: #111513;
+  --white: #FFFFFF;
+  --ink-alt: #111014;
+  --wordmark-stroke: #DCD6E2;
+  /* supporting (interface) */
+  --violet-300: #C77DFF;
+  --bg-0: #0B0D0C;
+  --bg-2: #171A1C;
+  --bg-3: #1E2124;
+  --line: #262A2F;
+  --line-strong: #383D44;
+  --text-1: #F4F2F7;
+  --text-2: #B7B3BF;
+  --text-3: #8E8A99;
+  --success: #3DD68C;
+  --warning: #F5B544;
+  --error: #FF6B85;
+  --info: #6CB4FF;
+  --grad-violet-light: radial-gradient(120% 140% at 0% 100%, #A700FF 0%, #2B0D3D 48%, #111014 78%);
+  --grad-brand-panel: linear-gradient(135deg, #8711D8 0%, #7B19C9 100%);
+}

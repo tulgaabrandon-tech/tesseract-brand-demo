@@ -1,0 +1,29 @@
+{
+  "official": {
+    "Tesseract Violet": "#A700FF",
+    "Deep Violet": "#7B19C9",
+    "Ink": "#111513",
+    "White": "#FFFFFF",
+    "Ink Alt": "#111014",
+    "Wordmark Stroke": "#DCD6E2"
+  },
+  "supporting": {
+    "Violet 300": "#C77DFF",
+    "bg-0": "#0B0D0C",
+    "bg-2": "#171A1C",
+    "bg-3": "#1E2124",
+    "Line": "#262A2F",
+    "Line Strong": "#383D44",
+    "Text 1": "#F4F2F7",
+    "Text 2": "#B7B3BF",
+    "Text 3": "#8E8A99",
+    "Success": "#3DD68C",
+    "Warning": "#F5B544",
+    "Error": "#FF6B85",
+    "Info": "#6CB4FF"
+  },
+  "gradients": {
+    "violet-light": "radial-gradient(120% 140% at 0% 100%, #A700FF 0%, #2B0D3D 48%, #111014 78%)",
+    "brand-panel": "linear-gradient(135deg, #8711D8 0%, #7B19C9 100%)"
+  }
+}

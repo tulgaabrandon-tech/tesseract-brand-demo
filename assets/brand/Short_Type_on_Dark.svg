@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 79.91 74.56">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: 0em;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        font-family: Manrope-Bold, Manrope;
+        font-size: 66.87px;
+        font-variation-settings: 'wght' 700;
+        font-weight: 700;
+      }
+
+      .cls-3 {
+        letter-spacing: -.02em;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <path class="cls-2" d="M16.24941 57.51V16.91991H0.6687V9.363599999999998H39.887955V16.91991H24.307244999999998V57.51ZM63.89503 57.51V49.55247H42.5635V42.029595L57.977035 9.363599999999998H67.17166L51.758125 42.029595H63.89503V29.49147H72.05317V42.029595H76.56689499999999V49.55247H72.05317V57.51Z"/>
+  </g>
+</svg>

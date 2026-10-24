@@ -1,0 +1,85 @@
+/* ==========================================================================
+   Tesseract design tokens
+   OFFICIAL  = taken directly from the supplied logo files / logo book
+   SAMPLED   = measured from the logo book artwork (gradient stops)
+   SUPPORT   = introduced for interface usability (not brand specifications)
+   ========================================================================== */
+
+@font-face { font-family: "Manrope"; src: url("../assets/fonts/manrope-latin-200-normal.woff2") format("woff2"); font-weight: 200; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("../assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("../assets/fonts/manrope-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("../assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("../assets/fonts/manrope-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("../assets/fonts/manrope-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+
+:root {
+  color-scheme: dark;
+
+  /* --- OFFICIAL brand colors --- */
+  --brand-violet: #A700FF;        /* symbol on dark backgrounds */
+  --brand-violet-deep: #7B19C9;   /* symbol on light backgrounds, solid brand panels */
+  --brand-ink: #111513;           /* dark brand background, wordmark on light */
+  --brand-ink-alt: #111014;       /* full logotype on light */
+  --brand-white: #FFFFFF;
+  --brand-stroke: #DCD6E2;        /* hairline stroke on the dark logotype */
+
+  /* --- SAMPLED gradient stops (logo book p.5–6) --- */
+  --grad-panel: linear-gradient(135deg, #8711D8 0%, #7B19C9 100%);
+  --grad-hero: radial-gradient(120% 140% at 0% 100%, #A700FF 0%, #2B0D3D 48%, #111014 78%);
+
+  /* --- SUPPORT: surfaces --- */
+  --bg-0: #0B0D0C;      /* desktop / window chrome */
+  --bg-1: #111513;      /* app canvas (= brand ink) */
+  --bg-2: #171A1C;      /* panels */
+  --bg-3: #1E2124;      /* raised controls, inputs */
+  --bg-4: #272B30;      /* hover on raised */
+  --line: #262A2F;
+  --line-strong: #383D44;
+
+  /* --- SUPPORT: text --- */
+  --text-1: #F4F2F7;
+  --text-2: #B7B3BF;
+  --text-3: #8E8A99;
+
+  /* --- SUPPORT: violet roles --- */
+  --violet-300: #C77DFF;  /* violet text/links + focus ring on dark (6.8:1) */
+  --violet-tint: rgba(167, 0, 255, .14);
+  --violet-tint-strong: rgba(167, 0, 255, .26);
+  --focus: #C77DFF;
+
+  /* --- SUPPORT: semantic --- */
+  --success: #3DD68C;
+  --warning: #F5B544;
+  --danger: #FF6B85;
+  --info: #6CB4FF;
+
+  /* --- type --- */
+  --font: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --fs-display: 44px;
+  --fs-title: 26px;
+  --fs-heading: 18px;
+  --fs-body: 15px;
+  --fs-label: 13px;
+  --fs-meta: 12px;
+
+  /* --- spacing (4px base) --- */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+
+  /* --- radii --- */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-pill: 999px;
+
+  /* --- motion --- */
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --t-fast: 120ms;
+  --t-med: 220ms;
+  --t-slow: 420ms;
+
+  --shadow-pop: 0 24px 60px -12px rgba(0, 0, 0, .7), 0 0 0 1px var(--line-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-fast: 0ms; --t-med: 0ms; --t-slow: 0ms; }
+}
