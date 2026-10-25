@@ -888,6 +888,7 @@
         </button>
         ${single ? '' : `<div class="dl__menu" id="${id}" role="menu" aria-label="${a.name} formats" hidden>
           <p class="dl__title">${a.name}</p>
+          ${a.files.some((f) => /assets\/downloads\/(logos|graphics|motion)\/.+\.(svg|png)$/.test(f.href)) ? '<p class="dl__note" data-brand-note hidden></p>' : ''}
           ${a.files.map((f) => `<a role="menuitem" class="dl__item" href="${f.href}" download="${f.file}" data-file="${f.file}"><b>${f.fmt}</b><span>${f.note}</span><em>${f.size}</em></a>`).join('')}
         </div>`}`;
       if (single) host.querySelector('.dl__btn').addEventListener('click', () => saveFile(a.files[0]));
@@ -897,6 +898,15 @@
       el.innerHTML = [...new Set(a.files.map((f) => f.fmt))].map((f) => `<span>${f}</span>`).join('');
     });
   }
+  const paintBrandNotes = () => {
+    const T = window.T4Theme; if (!T) return;
+    $$('[data-brand-note]').forEach((n) => {
+      n.hidden = T.official;
+      n.textContent = `Previewing ${T.name}: SVG and PNG files come in ${T.hex}. PDF, video and the kit stay official violet.`;
+    });
+  };
+  document.addEventListener('t4:brand', paintBrandNotes);
+
   function closeDl(focus) {
     if (!openDl) return;
     const m = openDl.querySelector('.dl__menu'); m.hidden = true;
@@ -911,6 +921,7 @@
       const host = btn.closest('.dl');
       if (openDl === host) { closeDl(); return; }
       closeDl();
+      paintBrandNotes();
       const m = host.querySelector('.dl__menu'); m.hidden = false; host.classList.add('is-open');
       btn.setAttribute('aria-expanded', 'true'); openDl = host;
       // open upward / leftward when there is no room
@@ -924,7 +935,7 @@
     if (item) {
       const host = item.closest('.dl'); const a = DLS[host.dataset.dl];
       const f = a.files.find((x) => x.file === item.dataset.file);
-      if (window.claude?.use) { e.preventDefault(); saveFile(f); }
+      if (window.claude?.use || window.T4Theme?.recolorable(f)) { e.preventDefault(); saveFile(f); }
       else toast(`Downloading ${f.file}`, 'ok', $('#bookModal').hidden ? $('#toasts') : bookToastHost());
       closeDl(); return;
     }
@@ -983,17 +994,24 @@
 
   async function saveFile(f) {
     const host = $('#bookModal').hidden ? $('#toasts') : bookToastHost();
+    // previewing another brand color: logo SVG/PNG files are recolored to match
+    let custom = null;
+    if (window.T4Theme?.recolorable(f)) { try { custom = await window.T4Theme.recolorDownload(f); } catch { custom = null; } }
     if (!window.claude?.use) {               // regular website: plain download link
-      const a = document.createElement('a'); a.href = f.href; a.download = f.file; document.body.appendChild(a); a.click(); a.remove();
-      toast(`Downloading ${f.file}`, 'ok', host); return;
+      const a = document.createElement('a');
+      a.href = custom ? URL.createObjectURL(custom.blob) : f.href; a.download = custom ? custom.file : f.file;
+      document.body.appendChild(a); a.click(); a.remove();
+      if (custom) setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      toast(`Downloading ${custom ? custom.file : f.file}`, 'ok', host); return;
     }
     const downloads = await window.claude.use('downloads');
     if (!downloads) { toast('Downloads aren\'t available in this view. Open the GitHub Pages version to download.', 'warn', host, 4200); return; }
     try {
       if (f.file.endsWith('.zip')) toast(`Preparing ${f.file}…`, 'info', host, 1800);
-      const blob = await fileBlob(f);
-      const r = await downloads.save({ filename: f.file, data: blob });
-      if (r.status === 'saved') toast(`Saved ${f.file}`, 'ok', host);
+      const blob = custom ? custom.blob : await fileBlob(f);
+      const name = custom ? custom.file : f.file;
+      const r = await downloads.save({ filename: name, data: blob });
+      if (r.status === 'saved') toast(`Saved ${name}`, 'ok', host);
     } catch (err) {
       const code = err && err.code;
       if (code === 'declined') return;

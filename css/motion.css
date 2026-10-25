@@ -7,7 +7,7 @@
 .mark svg { display: block; width: 100%; height: auto; overflow: visible; }
 .mark .m-ln { fill: none; stroke: var(--brand-violet); stroke-width: 5.26; stroke-linecap: round; stroke-linejoin: round; }
 .mark .m-dot { fill: var(--brand-violet); transform-box: fill-box; transform-origin: center; }
-.mark--glow svg { filter: drop-shadow(0 0 6px rgba(167,0,255,.55)) drop-shadow(0 0 22px rgba(167,0,255,.35)); }
+.mark--glow svg { filter: drop-shadow(0 0 6px rgb(var(--brand-rgb) / .55)) drop-shadow(0 0 22px rgb(var(--brand-rgb) / .35)); }
 
 .mark.is-build .m-dot  { animation: mDot 300ms var(--ease) both; }
 .mark.is-build .m-edge { animation: mDraw 800ms cubic-bezier(.55,0,.25,1) 250ms both; }
@@ -31,7 +31,7 @@
 .boot {
   position: fixed; inset: 0; z-index: 900;
   display: grid; place-items: center;
-  background: radial-gradient(60% 60% at 50% 50%, #1A0D24 0%, var(--bg-1) 70%);
+  background: radial-gradient(60% 60% at 50% 50%, var(--brand-night) 0%, var(--bg-1) 70%);
   transition: opacity 520ms var(--ease), visibility 0s linear 520ms;
 }
 .boot.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
@@ -47,7 +47,7 @@
 .tp { position: fixed; inset: 0; z-index: 600; --x: 50%; --y: 50%; }
 .tp__veil {
   position: absolute; inset: 0;
-  background: radial-gradient(70% 70% at 50% 50%, #1C0B2A 0%, #0B0D0C 72%);
+  background: radial-gradient(70% 70% at 50% 50%, var(--brand-night) 0%, #0B0D0C 72%);
   clip-path: circle(0 at var(--x) var(--y));
   transition: clip-path 620ms cubic-bezier(.65,0,.35,1);
 }
@@ -81,7 +81,7 @@
 
 .tp__flash {
   position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(120, 20, 190, .9) 0%, rgba(70, 8, 115, .75) 28%, rgba(28, 6, 44, .55) 50%, rgba(11, 13, 12, 0) 70%);
+  background: radial-gradient(circle, rgb(var(--brand-deep-rgb) / .9) 0%, rgb(var(--brand-shade-rgb) / .75) 28%, rgb(var(--brand-night-rgb) / .55) 50%, rgba(11, 13, 12, 0) 70%);
   transform: scale(0); opacity: 0; pointer-events: none;
 }
 .tp.is-flash .tp__flash { animation: flash 700ms cubic-bezier(.3,.6,.3,1) forwards; }
@@ -110,12 +110,12 @@ body.is-away .stage-bar { opacity: .25; filter: blur(3px); }
 .stream__desk { position: absolute; inset: 0; }
 .stream__desk::before {
   content: ""; position: absolute; inset: 0;
-  background: url("../assets/brand/Pattern.svg") center / 900px repeat;
+  background: var(--pattern-img, url("../assets/brand/Pattern.svg")) center / 900px repeat;
   opacity: .1;
   -webkit-mask: radial-gradient(75% 75% at 50% 50%, transparent 45%, #000 100%);
   mask: radial-gradient(75% 75% at 50% 50%, transparent 45%, #000 100%);
 }
-.stream__desk::after { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 50% at 50% 55%, rgba(167,0,255,.12), transparent 70%); }
+.stream__desk::after { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 50% at 50% 55%, rgb(var(--brand-rgb) / .12), transparent 70%); }
 /* Steam, oversized and faint, as the rig's wallpaper */
 .stream__brand { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; overflow: hidden; }
 .stream__brand img { width: min(78vw, 120vh); height: auto; opacity: .06; filter: grayscale(1) brightness(2); }
@@ -183,7 +183,7 @@ kbd { display: inline-block; min-width: 20px; padding: 1px 6px; border-radius: 4
   animation: liveIn 520ms cubic-bezier(.65,0,.35,1);
 }
 @keyframes liveIn { from { clip-path: circle(0 at 50% 60%); } to { clip-path: circle(150% at 50% 60%); } }
-.a-live__wall { position: absolute; left: 50%; top: 46%; width: 82%; transform: translate(-50%, -50%); opacity: .16; filter: drop-shadow(0 0 8px rgba(167,0,255,.9)); pointer-events: none; }
+.a-live__wall { position: absolute; left: 50%; top: 46%; width: 82%; transform: translate(-50%, -50%); opacity: .16; filter: drop-shadow(0 0 8px rgb(var(--brand-rgb) / .9)); pointer-events: none; }
 .a-live__top { position: relative; display: flex; justify-content: space-between; gap: 8px; }
 .a-live__chip { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 14px; background: rgba(23,26,28,.9); border: 1px solid var(--line-strong); font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .a-live__msg { position: relative; margin: auto 0; text-align: center; display: grid; gap: 6px; }
@@ -193,7 +193,7 @@ kbd { display: inline-block; min-width: 20px; padding: 1px 6px; border-radius: 4
 
 /* ---------- brandbook: motion ---------- */
 .bb-motion { display: grid; grid-template-columns: 1fr 1.15fr; gap: 32px; align-items: stretch; }
-.bb-motion__stage { position: relative; min-height: 340px; border-radius: 16px; display: grid; place-items: center; background: radial-gradient(70% 70% at 50% 50%, #1C0B2A, var(--brand-ink) 75%); border: 1px solid var(--line); }
+.bb-motion__stage { position: relative; min-height: 340px; border-radius: 16px; display: grid; place-items: center; background: radial-gradient(70% 70% at 50% 50%, var(--brand-night), var(--brand-ink) 75%); border: 1px solid var(--line); }
 .bb-motion__mark { width: 150px; }
 .bb-motion__stage .btn { position: absolute; right: 14px; bottom: 14px; }
 .bb-motion__steps { list-style: none; margin: 0; padding: 0; display: grid; align-content: center; }
@@ -228,7 +228,7 @@ kbd { display: inline-block; min-width: 20px; padding: 1px 6px; border-radius: 4
 .mark--outline .m-dot { fill: #fff; }
 .mark--outline .m-cut .m-ln { stroke: #000; stroke-width: 5.02; }
 .mark--outline .m-cut .m-dot { fill: #000; }
-.mark--outline svg { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px #A700FF) drop-shadow(0 0 34px #A700FF); }
+.mark--outline svg { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 10px var(--brand-violet)) drop-shadow(0 0 34px var(--brand-violet)); }
 .mark--slow.is-build .m-dot  { animation-duration: 450ms; }
 .mark--slow.is-build .m-edge { animation-duration: 1300ms; animation-delay: 380ms; }
 .mark--slow.is-build .m-ring { animation-duration: 650ms; animation-delay: 1650ms; }

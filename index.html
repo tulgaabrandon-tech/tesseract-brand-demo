@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/motion.css">
   <link rel="stylesheet" href="css/phone.css">
   <link rel="stylesheet" href="css/brandbook.css">
+  <script src="js/theme.js"></script>
 </head>
 <body>
 
@@ -49,6 +50,7 @@
     <span class="stage-bar__label">T4 for Windows <em>Interactive prototype</em></span>
   </div>
   <nav class="stage-bar__actions" aria-label="Prototype">
+    <button class="bp-trigger" id="brandBtn" type="button" data-brand-open aria-haspopup="dialog" aria-expanded="false" aria-controls="brandPanel"><span class="bp-trigger__dot" aria-hidden="true"></span><span class="bp-trigger__label">Brand color</span></button>
     <button class="btn btn--secondary" id="openPhone" type="button"><svg class="ic"><use href="#i-phone"/></svg>See app</button>
     <button class="btn btn--primary" id="openBrandbook" type="button"><svg class="ic"><use href="#i-book"/></svg>Brandbook</button>
   </nav>
@@ -332,6 +334,30 @@
   <button type="button" class="taskbar-chip" id="taskChip" data-win="restore" hidden><img src="assets/brand/Icon_on_Dark.svg" alt="" width="14" height="16">T4 — restore window</button>
 </main>
 
+
+<!-- ================= Brand color explorer ================= -->
+<section class="bp" id="brandPanel" role="dialog" aria-labelledby="bpTitle" hidden>
+  <header class="bp__head">
+    <div><h2 id="bpTitle">Brand color</h2><p>Preview another primary color across the app, the Android app, the logos and the brandbook.</p></div>
+    <button type="button" class="icon-btn" data-bp-close aria-label="Close brand color"><svg><use href="#i-close"/></svg></button>
+  </header>
+  <div class="bp__grid" id="bpGrid" role="radiogroup" aria-label="Color options"></div>
+  <div class="bp__current">
+    <span class="bp__chip" aria-hidden="true"></span>
+    <div><strong id="bpName">Tesseract Violet</strong> <span class="mono" id="bpHex">#A700FF</span><p id="bpNote"></p></div>
+  </div>
+  <div class="bp__custom" id="bpCustomWrap">
+    <label for="bpCustom">Custom</label>
+    <input type="color" id="bpCustom" value="#a700ff">
+    <input type="text" id="bpHexIn" class="input mono" value="#A700FF" maxlength="7" spellcheck="false" aria-label="Hex color">
+  </div>
+  <dl class="bp__checks" id="bpChecks" aria-label="Contrast"></dl>
+  <footer class="bp__foot">
+    <button type="button" class="btn btn--secondary btn--sm" id="bpReset">Reset to Tesseract Violet</button>
+    <span>Saved in this browser</span>
+  </footer>
+</section>
+
 <!-- ================= Boot loader ================= -->
 <div class="boot" id="boot" aria-hidden="true">
   <div class="boot__inner">
@@ -407,6 +433,7 @@
         <li>Press Play to try the launch flow</li>
         <li>Run a connection test on the Rig tab</li>
       </ul>
+      <button type="button" class="bp-trigger" data-brand-open aria-haspopup="dialog" aria-expanded="false" aria-controls="brandPanel"><span class="bp-trigger__dot" aria-hidden="true"></span>Try another color</button>
     </aside>
 
     <div class="phone" id="phone">
@@ -561,6 +588,7 @@
           <li><a href="#bb-downloads"><span>09</span>Downloads</a></li>
         </ol>
       </nav>
+      <button type="button" class="bp-trigger bp-trigger--book" data-brand-open aria-haspopup="dialog" aria-expanded="false" aria-controls="brandPanel"><span class="bp-trigger__dot" aria-hidden="true"></span>Try another color</button>
       <div class="book__kit"><div class="dl dl--primary dl--up" data-dl="kit"></div></div>
       <p class="book__ver">v1.0 · Oct 2026</p>
     </aside>
@@ -577,6 +605,7 @@
     <img class="bb-cover__art" src="assets/brand/Icon_Outline.svg" alt="" aria-hidden="true">
     <div class="bb-cover__text">
       <p class="bb-eyebrow">Brandbook · v1.0</p>
+      <p class="bb-preview" data-brand-status hidden>Previewing <b></b>. The official color is Tesseract Violet #A700FF.</p>
       <h1 id="bookTitle"><img src="assets/brand/Type_on_Dark.svg" alt="Tesseract" class="bb-cover__type"></h1>
       <p class="bb-cover__tag">Teleport your <span>battlestation.</span></p>
       <div class="bb-cover__dl"><div class="dl dl--primary" data-dl="kit"></div><span>Logos, motion, colors and fonts in one file</span></div>
@@ -590,7 +619,7 @@
 
     <div class="bb-logos">
       <figure class="bb-logo bb-logo--dark bb-logo--wide"><img src="assets/brand/Logo_on_Dark.svg" alt="Tesseract full logo on dark"><figcaption><strong>Full logo</strong>Primary lockup. Use for the app header, website, store listings and anywhere the name needs introducing.</figcaption><div class="dl" data-dl="logo-dark"></div></figure>
-      <figure class="bb-logo bb-logo--light bb-logo--wide"><img src="assets/brand/Logo_on_Light.svg" alt="Tesseract full logo on light"><figcaption><strong>Full logo · light</strong>Symbol switches to Deep Violet #7B19C9; wordmark to Ink.</figcaption><div class="dl" data-dl="logo-light"></div></figure>
+      <figure class="bb-logo bb-logo--light bb-logo--wide"><img src="assets/brand/Logo_on_Light.svg" alt="Tesseract full logo on light"><figcaption><strong>Full logo · light</strong>Symbol switches to <span data-name="deep">Deep Violet</span> <span data-hex="brand-violet-deep">#7B19C9</span>; wordmark to Ink.</figcaption><div class="dl" data-dl="logo-light"></div></figure>
       <figure class="bb-logo bb-logo--dark"><img src="assets/brand/Short_Logo_on_Dark.svg" alt="T4 short logo on dark"><figcaption><strong>T4 short logo</strong>Product lockup for the app itself: title bars, Android launcher label, installers.</figcaption><div class="dl" data-dl="t4-dark"></div></figure>
       <figure class="bb-logo bb-logo--light"><img src="assets/brand/Short_Logo_on_Light.svg" alt="T4 short logo on light"><figcaption><strong>T4 · light</strong>Same rules as the full logo.</figcaption><div class="dl" data-dl="t4-light"></div></figure>
       <figure class="bb-logo bb-logo--dark bb-logo--sq"><img src="assets/brand/Icon_on_Dark.svg" alt="Tesseract symbol on dark"><figcaption><strong>Symbol</strong>App icon, favicon, avatars and the loader.</figcaption><div class="dl" data-dl="symbol"></div></figure>
@@ -625,7 +654,7 @@
       <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Dark.svg" alt="" style="filter:hue-rotate(-140deg)"></div><figcaption><span class="no">Don't</span>Recolor the symbol. Violet is the identity.</figcaption></figure>
       <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Dark.svg" alt="" style="transform:scaleX(1.35)"></div><figcaption><span class="no">Don't</span>Stretch, squash or re-space the lockup.</figcaption></figure>
       <figure class="bb-do"><div class="bb-do__art bb-do__art--pattern"><img src="assets/brand/Logo_on_Light.svg" alt=""></div><figcaption><span class="no">Don't</span>Place the logo over the pattern or busy imagery.</figcaption></figure>
-      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Dark.svg" alt="" style="filter:drop-shadow(0 0 8px #A700FF) drop-shadow(0 0 16px #A700FF)"></div><figcaption><span class="no">Don't</span>Add glow to the lockup. Glow belongs to large symbol crops only.</figcaption></figure>
+      <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Dark.svg" alt="" style="filter:drop-shadow(0 0 8px var(--brand-violet)) drop-shadow(0 0 16px var(--brand-violet))"></div><figcaption><span class="no">Don't</span>Add glow to the lockup. Glow belongs to large symbol crops only.</figcaption></figure>
       <figure class="bb-do"><div class="bb-do__art bb-do__art--dark"><img src="assets/brand/Logo_on_Light.svg" alt=""></div><figcaption><span class="no">Don't</span>Use the light-background version on dark.</figcaption></figure>
     </div>
   </section>
@@ -636,8 +665,8 @@
 
     <h3 class="bb-h3">Official brand colors <span class="bb-tag bb-tag--official">From logo files</span><div class="dl dl--end" data-dl="colors"></div></h3>
     <div class="bb-swatches bb-swatches--hero">
-      <div class="sw sw--xl" style="--c:#A700FF"><div class="sw__chip"></div><strong>Tesseract Violet</strong><code>#A700FF</code><span>Symbol on dark. Primary actions, active states.</span></div>
-      <div class="sw sw--xl" style="--c:#7B19C9"><div class="sw__chip"></div><strong>Deep Violet</strong><code>#7B19C9</code><span>Symbol on light. Solid brand panels.</span></div>
+      <div class="sw sw--xl" style="--c:var(--brand-violet)"><div class="sw__chip"></div><strong data-name="primary">Tesseract Violet</strong><code><span data-hex="brand-violet">#A700FF</span></code><span>Symbol on dark. Primary actions, active states.</span></div>
+      <div class="sw sw--xl" style="--c:var(--brand-violet-deep)"><div class="sw__chip"></div><strong data-name="deep">Deep Violet</strong><code><span data-hex="brand-violet-deep">#7B19C9</span></code><span>Symbol on light. Solid brand panels.</span></div>
       <div class="sw sw--xl" style="--c:#111513"><div class="sw__chip sw__chip--line"></div><strong>Ink</strong><code>#111513</code><span>Dark brand background. Wordmark on light.</span></div>
       <div class="sw sw--xl" style="--c:#FFFFFF"><div class="sw__chip"></div><strong>White</strong><code>#FFFFFF</code><span>Wordmark on dark. Primary text.</span></div>
     </div>
@@ -645,8 +674,8 @@
 
     <h3 class="bb-h3">Gradients <span class="bb-tag bb-tag--sampled">Sampled from logo book</span></h3>
     <div class="bb-grads">
-      <div class="grad" style="background:var(--grad-hero)"><div><strong>Violet light</strong><code>radial · #A700FF → #2B0D3D → #111014</code><span>Hero moments. Light comes from one corner, behind a large symbol crop.</span></div></div>
-      <div class="grad" style="background:var(--grad-panel)"><div><strong>Brand panel</strong><code>135° · #8711D8 → #7B19C9</code><span>Solid violet surfaces with white type, like "Bring your A game."</span></div></div>
+      <div class="grad" style="background:var(--grad-hero)"><div><strong>Violet light</strong><code>radial · <span data-hex="brand-violet">#A700FF</span> → <span data-hex="brand-shadow">#2B0D3D</span> → #111014</code><span>Hero moments. Light comes from one corner, behind a large symbol crop.</span></div></div>
+      <div class="grad" style="background:var(--grad-panel)"><div><strong>Brand panel</strong><code>135° · <span data-hex="brand-panel-a">#8711D8</span> → <span data-hex="brand-violet-deep">#7B19C9</span></code><span>Solid violet surfaces with white type, like "Bring your A game."</span></div></div>
     </div>
 
     <h3 class="bb-h3">Interface colors <span class="bb-tag">Supporting</span></h3>
@@ -660,7 +689,7 @@
       <div class="sw" style="--c:#F4F2F7"><div class="sw__chip"></div><strong>text-1</strong><code>#F4F2F7</code><span>Primary text · 16.6:1</span></div>
       <div class="sw" style="--c:#B7B3BF"><div class="sw__chip"></div><strong>text-2</strong><code>#B7B3BF</code><span>Secondary · 9.0:1</span></div>
       <div class="sw" style="--c:#8E8A99"><div class="sw__chip"></div><strong>text-3</strong><code>#8E8A99</code><span>Metadata · 5.5:1</span></div>
-      <div class="sw" style="--c:#C77DFF"><div class="sw__chip"></div><strong>violet-300</strong><code>#C77DFF</code><span>Violet text, links, focus · 6.8:1</span></div>
+      <div class="sw" style="--c:var(--violet-300)"><div class="sw__chip"></div><strong>violet-300</strong><code><span data-hex="violet-300">#C77DFF</span></code><span>Violet text, links, focus · <span data-contrast="violet-300,#111513">6.8</span>:1</span></div>
     </div>
     <h3 class="bb-h3 bb-h3--sm">Semantic <span class="bb-tag">Supporting</span></h3>
     <div class="bb-swatches">
@@ -672,12 +701,12 @@
 
     <h3 class="bb-h3">Combinations</h3>
     <div class="bb-combos">
-      <div class="combo" style="background:#A700FF;color:#fff"><b>Play Steam</b><span class="ok">White on Violet · 5.1:1</span></div>
-      <div class="combo" style="background:#111513;color:#C77DFF"><b>All streaming options…</b><span class="ok">Violet-300 on Ink · 6.8:1</span></div>
-      <div class="combo" style="background:#7B19C9;color:#fff"><b>Bring your A game.</b><span class="ok">White on Deep Violet · 7.4:1</span></div>
-      <div class="combo" style="background:#111513;color:#7B19C9"><b>Small violet label</b><span class="no">Deep Violet on Ink · 2.5:1</span></div>
-      <div class="combo" style="background:#111513;color:#A700FF;font-size:13px"><b style="font-weight:500">Body text in violet</b><span class="no">Violet on Ink, small text · 3.6:1</span></div>
-      <div class="combo" style="background:#A700FF;color:#111513"><b>Ink on Violet</b><span class="no">Muddy, off-brand pairing</span></div>
+      <div class="combo" style="background:var(--brand-violet);color:var(--on-brand)"><b>Play Steam</b><span class="ok" data-onbrand-label>White on Violet · <span data-contrast="on-brand,brand-violet">5.1</span>:1</span></div>
+      <div class="combo" style="background:#111513;color:var(--violet-300)"><b>All streaming options…</b><span class="ok">Violet-300 on Ink · <span data-contrast="violet-300,#111513">6.8</span>:1</span></div>
+      <div class="combo" style="background:var(--brand-violet-deep);color:#fff"><b>Bring your A game.</b><span class="ok">White on Deep Violet · <span data-contrast="#ffffff,brand-violet-deep">7.4</span>:1</span></div>
+      <div class="combo" style="background:#111513;color:var(--brand-violet-deep)"><b>Small violet label</b><span class="no">Deep Violet on Ink · <span data-contrast="brand-violet-deep,#111513">2.5</span>:1</span></div>
+      <div class="combo" style="background:#111513;color:var(--brand-violet);font-size:13px"><b style="font-weight:500">Body text in violet</b><span class="no">Violet on Ink, small text · <span data-contrast="brand-violet,#111513">3.6</span>:1</span></div>
+      <div class="combo" style="background:var(--brand-violet);color:#111513"><b>Ink on Violet</b><span class="no">Muddy, off-brand pairing</span></div>
     </div>
   </section>
 
@@ -783,7 +812,7 @@
       <div class="bb-states">
         <div><button class="btn btn--primary" type="button">Default</button><span>Default</span></div>
         <div><button class="btn btn--primary is-hover" type="button">Hover</button><span>Hover · +8% light</span></div>
-        <div><button class="btn btn--primary is-focus" type="button">Focus</button><span>2 px ring · #C77DFF</span></div>
+        <div><button class="btn btn--primary is-focus" type="button">Focus</button><span>2 px ring · <span data-hex="violet-300">#C77DFF</span></span></div>
         <div><button class="btn btn--primary is-press" type="button">Pressed</button><span>Pressed · 98%</span></div>
         <div><button class="btn btn--primary" type="button" disabled>Disabled</button><span>Disabled · 40%</span></div>
         <div><button class="btn btn--primary is-loading" type="button" data-demo="loading"><span class="spinner"></span>Connecting…</button><span>Loading</span></div>
@@ -931,22 +960,22 @@
           <tbody>
             <tr><td>text-1 on Ink</td><td class="mono">16.6</td><td>All text</td></tr>
             <tr><td>text-3 on bg-2</td><td class="mono">5.2</td><td>Metadata (AA)</td></tr>
-            <tr><td>White on Violet</td><td class="mono">5.1</td><td>Buttons (AA)</td></tr>
-            <tr><td>violet-300 on Ink</td><td class="mono">6.8</td><td>Violet text, focus</td></tr>
-            <tr><td>Violet on Ink</td><td class="mono">3.6</td><td>Shapes, icons, ≥ 24 px text only</td></tr>
-            <tr><td>Deep Violet on Ink</td><td class="mono">2.5</td><td>Never for text on dark</td></tr>
+            <tr><td>Button text on Violet</td><td class="mono"><span data-contrast="on-brand,brand-violet">5.1</span></td><td>Buttons (AA)</td></tr>
+            <tr><td>violet-300 on Ink</td><td class="mono"><span data-contrast="violet-300,#111513">6.8</span></td><td>Violet text, focus</td></tr>
+            <tr><td>Violet on Ink</td><td class="mono"><span data-contrast="brand-violet,#111513">3.6</span></td><td>Shapes, icons, ≥ 24 px text only</td></tr>
+            <tr><td>Deep Violet on Ink</td><td class="mono"><span data-contrast="brand-violet-deep,#111513">2.5</span></td><td>Never for text on dark</td></tr>
           </tbody>
         </table>
       </div>
       <div>
         <h3 class="bb-h3 bb-h3--sm">Violet or violet-300?</h3>
         <ul class="bb-rules bb-rules--tight">
-          <li><strong>#A700FF</strong> fills: primary buttons, selected switches, slider tracks, the symbol.</li>
-          <li><strong>#C77DFF</strong> for anything that is <em>read</em> on dark: links, violet labels, focus rings.</li>
-          <li><strong>#7B19C9</strong> on light surfaces and solid brand panels.</li>
+          <li><strong><span data-hex="brand-violet">#A700FF</span></strong> fills: primary buttons, selected switches, slider tracks, the symbol.</li>
+          <li><strong><span data-hex="violet-300">#C77DFF</span></strong> for anything that is <em>read</em> on dark: links, violet labels, focus rings.</li>
+          <li><strong><span data-hex="brand-violet-deep">#7B19C9</span></strong> on light surfaces and solid brand panels.</li>
         </ul>
         <h3 class="bb-h3 bb-h3--sm">Focus &amp; motion</h3>
-        <div class="bb-focusDemo"><button class="btn btn--secondary is-focus" type="button">Focused</button><span>2 px #C77DFF ring, 2 px offset, on every interactive element via <code>:focus-visible</code>.</span></div>
+        <div class="bb-focusDemo"><button class="btn btn--secondary is-focus" type="button">Focused</button><span>2 px <span data-hex="violet-300">#C77DFF</span> ring, 2 px offset, on every interactive element via <code>:focus-visible</code>.</span></div>
         <p class="bb-p">Transitions are 120–420 ms with one easing curve. With <em>reduce motion</em> on, transitions drop to zero, the logo build shows its final frame, and the teleport becomes a simple crossfade.</p>
       </div>
     </div>
@@ -985,7 +1014,7 @@
         <li class="dlt__row"><span class="dlt__thumb dlt__thumb--violet"><img src="assets/brand/Icon_Outline.svg" alt=""></span><span class="dlt__name"><strong>Neon outline symbol</strong><span>Hero crops and glow</span></span><span class="dlt__fmts" data-dl-fmts="outline"></span><div class="dl dl--end" data-dl="outline"></div></li>
         <li class="dlt__row"><span class="dlt__thumb dlt__thumb--dark"><img src="assets/brand/Icon_Line.svg" alt=""></span><span class="dlt__name"><strong>Single-line symbol</strong><span>Motion source</span></span><span class="dlt__fmts" data-dl-fmts="line"></span><div class="dl dl--end" data-dl="line"></div></li>
         <li class="dlt__row"><span class="dlt__thumb dlt__thumb--dark"><img src="assets/brand/Pattern.svg" alt=""></span><span class="dlt__name"><strong>Pattern</strong><span>Brand panels and edges</span></span><span class="dlt__fmts" data-dl-fmts="pattern"></span><div class="dl dl--end" data-dl="pattern"></div></li>
-        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--colors"><i style="background:#A700FF"></i><i style="background:#7B19C9"></i><i style="background:#111513"></i><i style="background:#fff"></i></span><span class="dlt__name"><strong>Color palette</strong><span>Official and supporting colors</span></span><span class="dlt__fmts" data-dl-fmts="colors"></span><div class="dl dl--end" data-dl="colors"></div></li>
+        <li class="dlt__row"><span class="dlt__thumb dlt__thumb--colors"><i style="background:var(--brand-violet)"></i><i style="background:var(--brand-violet-deep)"></i><i style="background:#111513"></i><i style="background:#fff"></i></span><span class="dlt__name"><strong>Color palette</strong><span>Official and supporting colors</span></span><span class="dlt__fmts" data-dl-fmts="colors"></span><div class="dl dl--end" data-dl="colors"></div></li>
         <li class="dlt__row"><span class="dlt__thumb dlt__thumb--type">Aa</span><span class="dlt__name"><strong>Manrope</strong><span>Brand typeface, OFL</span></span><span class="dlt__fmts" data-dl-fmts="fonts"></span><div class="dl dl--end" data-dl="fonts"></div></li>
     </ul>
   </section>

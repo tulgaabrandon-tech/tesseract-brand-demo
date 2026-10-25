@@ -34,6 +34,7 @@ assets/downloads/     brandbook downloads: logos, graphics, motion, colors, font
 assets/platforms/     drop official store logos here (see js/logos.js)
 js/downloads.js       download manifest (formats, sizes)
 js/logos.js           which platform logo files to use
+js/theme.js           brand color explorer: presets, derived tokens, SVG recoloring
 ```
 
 ## Demo flow
@@ -47,6 +48,18 @@ js/logos.js           which platform logo files to use
 Escape cancels during the teleport. During a stream it only nudges the bar, because in a real stream Escape belongs to the game. Every run follows the same timeline, so live demos are predictable. With reduced motion turned on, the drawing, turn and light burst are replaced by simple crossfades.
 
 The Android mockup runs the same story: Play opens a bottom sheet with the symbol building, then a live screen with End stream.
+
+## Brand color explorer
+
+**Brand color** in the top bar (also in the brandbook sidebar and next to the phone) previews a different primary color everywhere at once: buttons, glows, gradients, the logo and pattern SVGs, the animated symbol, the stream view, the phone and the brandbook's swatches, hex codes and contrast figures.
+
+- Twelve options, each with a short note on how it reads and where it overlaps other gaming brands or the interface's status colors.
+- A custom color picker and hex field.
+- Contrast readouts for button text, the color on Ink and the light text tint. Text on brand buttons switches to Ink automatically when white would be hard to read.
+- While previewing, logo SVG and PNG downloads come out in that color (file names get the color's name). PDFs, video and the kit ZIP stay in the official violet.
+- The choice is saved in the browser. **Reset to Tesseract Violet** restores the exact official values.
+
+Everything derives from one base color in `js/theme.js`; the official violet keeps its exact logo-file values.
 
 ## Notes and assumptions
 
